@@ -1,0 +1,205 @@
+<template>
+  <div class="v-products">
+    <!-- <h1 class="v-products__title">PRODUCTOS</h1> -->
+    <div class="v-products__container">
+      <div class="v-products__filters">
+        <h2 class="v-products__filters__title">FILTROS</h2>
+        <h3 class="v-products__filters__subtitles">Categorías</h3>
+        <fwb-select
+          v-model="selectedCategory"
+          :options="categories"
+          placeholder="Selecciona una cateroria"
+        />
+        <h3 class="v-products__filters__subtitles">Marcas</h3>
+        <fwb-select
+          v-model="selectedBrand"
+          :options="brands"
+          placeholder="Selecciona una marca"
+        />
+        <h3 class="v-products__filters__subtitles">Ordenar</h3>
+        <fwb-select
+          v-model="sortOrder"
+          :options="sortOptions"
+          placeholder="Selecciona una opción"
+        ></fwb-select>
+      </div>
+      <div>
+        <div></div>
+        <div class="v-products__list">
+          <CProductList
+            :category="selectedCategory"
+            :brand="selectedBrand"
+            :sort="sortOrder"
+            :size="20"
+            :onPage="1"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+// import CProductCard from "../components/c-product-card.vue";
+import { ref, onMounted, watch } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { FwbSelect } from "flowbite-vue";
+import CProductList from "~/components/c-product-list.vue";
+import productsService from "~/api/services/productsService";
+
+const router = useRouter();
+const route = useRoute();
+
+const categories = ref([]);
+const allBrands = ref([]); // Lista original de marcas (sin filtrar)
+const brands = ref([]); // Lista filtrada según la categoría
+const selectedCategory = ref("");
+const selectedBrand = ref("");
+const sortOrder = ref("product_name:asc");
+
+const sortOptions = [
+  { value: "product_name:asc", name: "A-Z" },
+  { value: "product_name:desc", name: "Z-A" },
+];
+
+const formatLabel = (str) => {
+  if (!str) return "";
+  return str
+    .split("-")
+    .map((part) => part.toUpperCase())
+    .join(" ");
+};
+
+/// Cargar categorías y marcas
+onMounted(async () => {
+  // Obtener categorías
+  const catData = await productsService.getCategories();
+  categories.value = [
+    { value: "", name: "TODAS" },
+    ...catData.map((c) => ({
+      value: c.documentId,
+      name: formatLabel(c.name),
+    })),
+  ];
+
+  // Obtener marcas con sus productos y categorías
+  const brandData = await productsService.getBrandsWithProductsAndCategories();
+
+  // Guardar lista original
+  allBrands.value = brandData;
+
+  // Guarda temporalmente query params
+  const initialCategory = route.query.category || "";
+  const initialBrand = route.query.brand || "";
+  const initialSort = route.query.sort || "product_name:asc";
+
+  //console para ver que trae el parametro brand de la url
+
+  selectedCategory.value = initialCategory;
+
+  updateFilteredBrands();
+
+  selectedBrand.value = initialBrand;
+  sortOrder.value = initialSort;
+  // console.log(selectedBrand.value);
+});
+
+// Actualizar marcas filtradas cuando cambia selectedCategory
+watch(selectedCategory, () => {
+  updateFilteredBrands();
+  // Resetear la marca seleccionada si cambia la categoría
+  selectedBrand.value = "";
+});
+
+// Actualizar URL cada vez que cambian filtros
+watch([selectedCategory, selectedBrand, sortOrder], () => {
+  router.replace({
+    query: {
+      category: selectedCategory.value || undefined,
+      brand: selectedBrand.value || undefined,
+      sort: sortOrder.value || undefined,
+    },
+  });
+});
+
+// Función que recalcula las marcas filtradas
+function updateFilteredBrands() {
+  if (!selectedCategory.value) {
+    // Si no hay categoría, mostrar todas
+    brands.value = [
+      { value: "", name: "TODAS" },
+      ...allBrands.value.map((b) => ({
+        value: b.documentId,
+        name: formatLabel(b.name),
+      })),
+    ];
+  } else {
+    // Filtrar marcas que tengan productos en la categoría seleccionada
+    const filtered = allBrands.value.filter((brand) => {
+      return brand.products.some((product) =>
+        product.categories.some(
+          (cat) => cat.documentId === selectedCategory.value
+        )
+      );
+    });
+
+    brands.value = [
+      { value: "", name: "TODAS" },
+      ...filtered.map((b) => ({
+        value: b.documentId,
+        name: formatLabel(b.name),
+      })),
+    ];
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.v-products {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 40px 0;
+}
+.v-products__title {
+  font-family: "ItcDemi";
+  font-size: 2em;
+  border-bottom: solid 2px var(--secondary-color);
+}
+.v-products__container {
+  width: calc(100%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 60px;
+}
+.v-products__filters {
+  width: 200px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.v-products__filters__title {
+  font-family: "ItcDemi";
+  font-size: 1.4em;
+  border-bottom: solid 2px var(--secondary-color);
+  margin-bottom: 20px;
+}
+.v-products__filters__subtitles {
+  font-family: "ItcDemi";
+  font-size: 1.2em;
+}
+.v-products__filters__select {
+  background-color: var(--secondary-color);
+}
+.v-products__list {
+  width: 1200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+</style>

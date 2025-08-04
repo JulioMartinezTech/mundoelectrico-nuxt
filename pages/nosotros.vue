@@ -1,0 +1,162 @@
+<template>
+  <div class="v-about-us">
+    <div class="v-about-us__history-container">
+      <div class="v-about-us__image-container"></div>
+      <div class="v-about-us__history">
+        <h1 class="v-about-us__title">{{ pageTitle }}</h1>
+        <p
+          class="v-about-us__history__text"
+          v-for="(paragraph, index) in historyParagraphs"
+          :key="index"
+        >
+          {{ paragraph }}
+        </p>
+      </div>
+    </div>
+    <div class="v-about-us__values">
+      <div class="v-about-us__values__container">
+        <div class="v-about-us__value">
+          <h2 class="v-about-us__value__title">Misión</h2>
+          <p
+            v-for="(paragraph, index) in missionParagraphs"
+            :key="index"
+            class="v-about-us__value__paragraph"
+          >
+            {{ paragraph }}
+          </p>
+        </div>
+        <div class="v-about-us__value">
+          <h2 class="v-about-us__value__title">Visión</h2>
+          <p
+            v-for="(paragraph, index) in visionParagraphs"
+            :key="index"
+            class="v-about-us__value__paragraph"
+          >
+            {{ paragraph }}
+          </p>
+        </div>
+        <div class="v-about-us__value">
+          <h2 class="v-about-us__value__title">Valores</h2>
+          <p
+            v-for="(paragraph, index) in valuesParagraphs"
+            :key="index"
+            class="v-about-us__value__paragraph"
+          >
+            {{ paragraph }}
+          </p>
+        </div>
+      </div>
+      <div class="v-about-us__values__container">
+        <div class="v-about-us__value__image-container"></div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from "vue";
+import contentService from "~/api/services/contentService";
+
+const pageTitle = ref([]);
+const historyParagraphs = ref([]);
+const missionParagraphs = ref([]);
+const visionParagraphs = ref([]);
+const valuesParagraphs = ref([]);
+
+//function to get the page paragraphs
+const pageContent = (data, section) => {
+  data.forEach((item) => {
+    item.children.forEach((node) => {
+      section.value.push(node.text);
+    });
+  });
+};
+
+onMounted(async () => {
+  try {
+    const response = await contentService.fetchPageContent();
+    pageTitle.value = response.titulo;
+
+    //call functios
+    pageContent(response.historia, historyParagraphs);
+    pageContent(response.mision, missionParagraphs);
+    pageContent(response.vision, visionParagraphs);
+    pageContent(response.valores, valuesParagraphs);
+  } catch (error) {
+    console.error("Error fetching page content:", error);
+  }
+});
+</script>
+
+<style>
+.v-about-us {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+.v-about-us__history-container {
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.v-about-us__image-container {
+  width: 50%;
+  height: 600px;
+  background-color: rgb(154, 154, 154);
+}
+.v-about-us__history {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+}
+.v-about-us__title {
+  font-weight: 800;
+  color: var(--secondary-color);
+  font-size: 1.7rem;
+}
+.v-about-us__values {
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.v-about-us__values__container {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.v-about-us__value {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: center; */
+  gap: 6px;
+}
+.v-about-us__value__title {
+  font-weight: 800;
+  color: var(--secondary-color);
+  font-size: 1.3rem;
+}
+.v-about-us__value__paragraph {
+  width: 60%;
+  text-align: justify;
+}
+.v-about-us__value__image-container {
+  width: 100%;
+  height: 400px;
+  background-color: rgb(154, 154, 154);
+}
+</style>
