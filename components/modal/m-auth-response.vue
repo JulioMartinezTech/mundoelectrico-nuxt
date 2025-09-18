@@ -99,7 +99,7 @@ const close = () => emit("close");
 }
 .m-auth-response__form__title {
   color: var(--secondary-color);
-  font-family: "ItcDemi";
+  font-family: var(--secondary-font);
   font-size: 1.7rem;
   font-weight: 800;
   text-align: center;

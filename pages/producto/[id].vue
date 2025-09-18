@@ -57,7 +57,11 @@
             text="Agregar a la lista"
             @actionButton="
               () =>
-                cart.addProduct({ id: product.product_code, name: productName })
+                cart.addProduct({
+                  id: product.product_code,
+                  name: productName,
+                  imgUrl: mainImageUrl,
+                })
             "
           />
         </div>
@@ -86,6 +90,8 @@
 <script setup>
 import { useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
+//import store
+import { useCartStore } from "~/stores/useCartStore";
 //import components
 import CProductList from "~/components/c-product-list.vue";
 import CButton from "~/components/c-button.vue";
@@ -165,7 +171,7 @@ onMounted(async () => {
   padding-top: 60px;
 }
 .v-product-details__title {
-  font-family: "ItcDemi";
+  font-family: var(--secondary-font);
   font-size: 1.9rem;
   border-bottom: solid 2px var(--secondary-color);
 }
@@ -250,13 +256,13 @@ onMounted(async () => {
 }
 .v-product-details__container__description-container__title {
   width: 75%;
-  font-family: "ItcDemi";
+  font-family: var(--secondary-font);
   font-size: 1.8em;
   border-bottom: solid 2px var(--secondary-color);
 }
 .v-product-details__container__description-container__product-name {
   width: 60%;
-  font-family: "ItcDemi";
+  font-family: var(--secondary-font);
   font-size: 1.2em;
   text-align: center;
 }

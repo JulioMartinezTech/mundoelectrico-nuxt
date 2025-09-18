@@ -1,5 +1,10 @@
 /* color palette from <https://github.com/vuejs/theme> */
 @font-face {
+  font-family: "Cornero";
+  src: local('Cornero'), url("../fonts/Cornero/Cornero.otf");
+}
+
+@font-face {
   font-family: "ItcDemi";
   src: local('Itc-Eras-Std-Demi'), url("../fonts/ITC-Eras-Std-Demi/ITC-Eras-Std-Demi.otf");
 }
@@ -11,15 +16,18 @@
 
 :root {
 
-  --primary-color: #1D1D1B;
-  --secondary-color: #E74E0F;
+  --primary-font: "ItcLight";
+  --secondary-font: "ItcDemi";
+
+  --primary-color: #474748;
+  --secondary-color: #F37421;
   --third-color: #808080;
 
   --vt-c-white: #ffffff;
   --vt-c-white-soft: #f8f8f8;
   --vt-c-white-mute: #f2f2f2;
 
-  --text-error: rgb(192, 23, 23);
+  --text-error: #BB271A;
 
   --gray: #E5E2E2;
 

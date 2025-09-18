@@ -24,6 +24,11 @@
       text="Registro de usuario realizado exitosamente"
       @close="modal.closeModal()"
     />
+    <MAuthResponse
+      :visible="modal.activeModal === 'email-sent'"
+      text="El correo fue enviado correctamente, pronto uno de nuestros agentes se pondra en contacto"
+      @close="modal.closeModal()"
+    />
     <slot />
     <CFooter />
   </div>

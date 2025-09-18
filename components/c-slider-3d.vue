@@ -10,7 +10,7 @@
       </button>
     </div>
     <div class="c-slider">
-      <div class="c-slider__slide" :class="animation1">Slide 1</div>
+      <div class="c-slider__slide c-slide__b" :class="animation1">Slide 1</div>
       <div class="c-slider__slide" :class="animation2">Slide 2</div>
       <div class="c-slider__slide" :class="animation3">Slide 3</div>
     </div>
@@ -91,13 +91,21 @@ const handleLeftButtom = () => {
 
 <style lang="scss" scoped>
 .c-slider-container {
+  /* --- Mobile first: variables fluidas --- */
+  --slide-w: min(84vw, 260px);
+  --slide-h: clamp(120px, 56vw, 260px);
+  --offset: 95%; /* distancia horizontal de los laterales */
+  --tilt: 18deg; /* inclinación Y para sensación de giro */
+
   position: relative;
   width: 100%;
-  height: 400px;
+  height: var(--slide-h);
   display: flex;
   justify-content: center;
   align-items: center;
-  //   perspective: 1000px;
+
+  /* Clave para el efecto de giro */
+  perspective: 900px;
 }
 
 .c-slider {
@@ -106,40 +114,52 @@ const handleLeftButtom = () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  //   transform-style: preserve-3d;
-  //   transition: transform 0.6s ease-in-out;
+  gap: 30px;
+
+  /* Mantén el 3D dentro del carrusel */
+  transform-style: preserve-3d;
 }
 
 .c-slider__slide {
-  width: 450px;
-  height: 450px;
+  width: var(--slide-w);
+  height: var(--slide-h);
   position: absolute;
   background-color: var(--secondary-color);
-  color: white;
+  color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2rem;
-  border-radius: 10px;
+  font-size: clamp(1rem, 3.5vw, 1.5rem);
+  border-radius: 12px;
+  text-align: center;
+
+  /* Suaviza las animaciones */
+  will-change: transform;
+}
+
+.c-slide__b {
+  background-color: var(--primary-color);
 }
 
 .c-slider__buttons {
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .c-slider__button {
-  width: 35px;
-  height: 35px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background-color: var(--secondary-color);
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
+/* ====== ANIMACIONES (adelante) ====== */
 .animation-forward1 {
   animation: moveSlide1 3s ease-in-out forwards;
 }
@@ -149,6 +169,8 @@ const handleLeftButtom = () => {
 .animation-forward3 {
   animation: moveSlide3 3s ease-in-out forwards;
 }
+
+/* ====== ANIMACIONES (atrás) ====== */
 .animation-backward1 {
   animation: movec-slidereverse1 3s ease-in-out forwards;
 }
@@ -159,99 +181,225 @@ const handleLeftButtom = () => {
   animation: movec-slidereverse3 3s ease-in-out forwards;
 }
 
-// animaciones hacia adelante
-
+/* ---------- Adelante ---------- */
+/* Izquierda -> Centro */
 @keyframes moveSlide1 {
   0% {
-    transform: translateX(-400px) scale(0.5);
-    z-index: 1;
+    transform: translateY(calc(-1 * var(--offset))) rotateX(var(--tilt))
+      scale(0.82);
+    z-index: 2;
   }
   100% {
-    transform: translateX(0) scale(1);
+    transform: translateY(0) rotateX(0deg) scale(1);
     z-index: 3;
   }
 }
+
+/* Centro -> Derecha */
 @keyframes moveSlide2 {
   0% {
-    transform: translateX(0) scale(1);
+    transform: translateY(0) rotateX(0deg) translateZ(0) scale(1);
     z-index: 3;
   }
   100% {
-    transform: translateX(400px) scale(0.5);
+    transform: translateY(var(--offset)) rotateX(calc(-1 * var(--tilt)))
+      translateZ(-120px) scale(0.82);
     z-index: 2;
   }
 }
+
+/* Derecha -> Izquierda (pasando “por detrás”) */
 @keyframes moveSlide3 {
   0% {
-    transform: translateX(400px) scale(0.5);
+    transform: translateY(var(--offset)) rotateX(calc(-1 * var(--tilt)))
+      translateZ(-120px) scale(0.82);
     z-index: 2;
   }
   50% {
-    transform: scale(0.2);
+    transform: translateY(0) rotateX(0deg) translateZ(-240px) scale(0.55);
     z-index: 1;
   }
   100% {
-    transform: translateX(-400px) scale(0.5);
-    z-index: 1;
+    transform: translateY(calc(-1 * var(--offset))) rotateX(var(--tilt))
+      translateZ(-120px) scale(0.82);
+    z-index: 2;
   }
 }
 
-//animaciones hacia atras
-
+/* ---------- Atrás ---------- */
+/* Centro -> Izquierda */
 @keyframes movec-slidereverse1 {
   0% {
-    transform: translateX(0) scale(1);
+    transform: translateY(0) rotateX(0deg) scale(1);
     z-index: 3;
   }
   100% {
-    transform: translateX(-400px) scale(0.5);
-    z-index: 1;
+    transform: translateY(calc(-1 * var(--offset))) rotateX(var(--tilt))
+      translateZ(-120px) scale(0.82);
+    z-index: 2;
   }
 }
+
+/* Derecha -> Centro */
 @keyframes movec-slidereverse2 {
   0% {
-    transform: translateX(400px) scale(0.5);
+    transform: translateY(var(--offset)) rotateX(calc(-1 * var(--tilt)))
+      translateZ(-120px) scale(0.82);
     z-index: 2;
   }
   100% {
-    transform: translateX(0) scale(1);
+    transform: translateY(0) rotateX(0deg) scale(1);
     z-index: 3;
   }
 }
+
+/* Izquierda -> Derecha (pasando “por detrás”) */
 @keyframes movec-slidereverse3 {
   0% {
-    transform: translateX(-400px) scale(0.5);
-    z-index: 1;
+    transform: translateY(calc(-1 * var(--offset))) rotateX(var(--tilt))
+      translateZ(-120px) scale(0.82);
+    z-index: 2;
   }
   50% {
-    transform: scale(0.2);
+    transform: translateY(0) rotateX(0deg) translateZ(-240px) scale(0.55);
     z-index: 1;
   }
   100% {
-    transform: translateX(400px) scale(0.5);
+    transform: translateY(var(--offset)) rotateX(calc(-1 * var(--tilt)))
+      scale(0.82);
     z-index: 2;
   }
 }
 
-// button {
-//   position: absolute;
-//   top: 50%;
-//   transform: translateY(-50%);
-//   background-color: rgba(0, 0, 0, 0.5);
-//   color: white;
-//   border: none;
-//   padding: 10px;
-//   cursor: pointer;
-//   border-radius: 5px;
-//   font-size: 1.2rem;
-//   z-index: 10;
-// }
+/* ================= Media queries ================= */
 
-// button.prev {
-//   left: 10px;
-// }
+/* Tablet */
+@media (min-width: 768px) {
+  .c-slider-container {
+    --slide-w: min(70vw, 420px);
+    --slide-h: clamp(280px, 45vw, 420px);
+    --offset: 105%;
+    --tilt: 20deg;
+    height: var(--slide-h);
+    perspective: 1000px;
+  }
 
-// button.next {
-//   right: 10px;
-// }
+  .c-slider__buttons {
+    width: 50px;
+    height: 50px;
+  }
+  .c-slider__button {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .c-slider-container {
+    --slide-w: 400px;
+    --slide-h: 400px;
+    --offset: 110%;
+    --tilt: 22deg;
+    height: var(--slide-h);
+    perspective: 1100px;
+  }
+
+  .c-slider__buttons {
+    width: 60px;
+    height: 60px;
+  }
+  .c-slider__button {
+    width: 38px;
+    height: 38px;
+  }
+
+  @keyframes moveSlide1 {
+    0% {
+      transform: translateX(calc(-1 * var(--offset))) rotateY(var(--tilt))
+        scale(0.82);
+      z-index: 3;
+    }
+    100% {
+      transform: translateX(0) rotateY(0deg) scale(1);
+      z-index: 3;
+    }
+  }
+
+  /* Centro -> Derecha */
+  @keyframes moveSlide2 {
+    0% {
+      transform: translateX(0) rotateY(0deg) translateZ(0) scale(1);
+      z-index: 3;
+    }
+    100% {
+      transform: translateX(var(--offset)) rotateY(calc(-1 * var(--tilt)))
+        translateZ(-120px) scale(0.82);
+      z-index: 2;
+    }
+  }
+
+  /* Derecha -> Izquierda (pasando “por detrás”) */
+  @keyframes moveSlide3 {
+    0% {
+      transform: translateX(var(--offset)) rotateY(calc(-1 * var(--tilt)))
+        translateZ(-120px) scale(0.82);
+      z-index: 2;
+    }
+    50% {
+      transform: translateX(0) rotateY(0deg) translateZ(-240px) scale(0.55);
+      z-index: 1;
+    }
+    100% {
+      transform: translateX(calc(-1 * var(--offset))) rotateY(var(--tilt))
+        translateZ(-120px) scale(0.82);
+      z-index: 2;
+    }
+  }
+
+  /* ---------- Atrás ---------- */
+  /* Centro -> Izquierda */
+  @keyframes movec-slidereverse1 {
+    0% {
+      transform: translateX(0) rotateY(0deg) scale(1);
+      z-index: 3;
+    }
+    100% {
+      transform: translateX(calc(-1 * var(--offset))) rotateY(var(--tilt))
+        translateZ(-120px) scale(0.82);
+      z-index: 3;
+    }
+  }
+
+  /* Derecha -> Centro */
+  @keyframes movec-slidereverse2 {
+    0% {
+      transform: translateX(var(--offset)) rotateY(calc(-1 * var(--tilt)))
+        translateZ(-120px) scale(0.82);
+      z-index: 3;
+    }
+    100% {
+      transform: translateX(0) rotateY(0deg) scale(1);
+      z-index: 3;
+    }
+  }
+
+  /* Izquierda -> Derecha (pasando “por detrás”) */
+  @keyframes movec-slidereverse3 {
+    0% {
+      transform: translateX(calc(-1 * var(--offset))) rotateY(var(--tilt))
+        translateZ(-120px) scale(0.82);
+      z-index: 1;
+    }
+    50% {
+      transform: translateX(0) rotateY(0deg) translateZ(-240px) scale(0.55);
+      z-index: 1;
+    }
+    100% {
+      transform: translateX(var(--offset)) rotateY(calc(-1 * var(--tilt)))
+        scale(0.82);
+      z-index: 2;
+    }
+  }
+}
 </style>

@@ -132,6 +132,12 @@ const goToPage = (page) => {
   flex-wrap: wrap;
   gap: 12px;
 }
+.c-product-list__empty {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .c-product-list__pagination {
   display: flex;
   justify-content: center;

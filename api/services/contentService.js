@@ -1,5 +1,5 @@
-// const apiBaseUrl =
-//   useRuntimeConfig().public.apiBase || "http://localhost:1337/api";
+const apiBaseUrl =
+  import.meta.env.NUXT_PUBLIC_API_URL || "http://localhost:1337";
 
 // Función genérica para manejar errores
 const handleApiError = (error) => {
@@ -10,7 +10,7 @@ const handleApiError = (error) => {
 // Función para traer contenido de una página específica
 export const fetchPageContent = async () => {
   try {
-    const data = await $fetch(`http://localhost:1337/api/about-page`, {
+    const data = await $fetch(`${apiBaseUrl}/api/about-page`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

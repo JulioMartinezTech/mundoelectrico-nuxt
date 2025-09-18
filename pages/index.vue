@@ -10,7 +10,7 @@
     <section class="v-home__slider-container">
       <CSlider3d />
     </section>
-    <div class="v-home__categories">
+    <!-- <div class="v-home__categories">
       <div class="v-home__categories__group">
         <div class="v-home__categories__group__item">
           <div class="v-home__categories__group__item-inner">
@@ -47,17 +47,17 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="v-home__action"></div>
     <div class="v-home__product-featurerd">
       <h2 class="v-home__product-featurerd__title">PRODUCTOS DESTACADOS</h2>
-      <div class="v-home__product-featured__list">
+      <!-- <div class="v-home__product-featured__list">
         <CProductCard
           v-for="product in products"
           :key="product.id"
           :data="product"
         />
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -125,6 +125,9 @@ onMounted(async () => {
 .v-home__slider-container {
   width: 100%;
   min-height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .v-home__categories {
   display: flex;
@@ -135,7 +138,7 @@ onMounted(async () => {
   margin-top: 40px;
 }
 .v-home__categories__title {
-  font-family: "ItcDemi";
+  font-family: var(--secondary-font);
   font-size: 2em;
   border-bottom: solid 2px var(--secondary-color);
 }
@@ -190,7 +193,7 @@ onMounted(async () => {
 }
 .v-home__categories__group__item__text {
   width: 70%;
-  font-family: "ItcDemi";
+  font-family: var(--secondary-font);
   color: var(--secondary-color);
   text-align: center;
   display: flex;
@@ -210,7 +213,7 @@ onMounted(async () => {
   gap: 40px;
 }
 .v-home__action__title {
-  font-family: "ItcDemi";
+  font-family: var(--secondary-font);
   font-size: 2.5em;
   color: var(--vt-c-white);
   border-bottom: solid 3px var(--vt-c-white);
@@ -223,7 +226,7 @@ onMounted(async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "ItcDemi";
+  font-family: var(--secondary-font);
   color: var(--vt-c-white);
   border-radius: 50px;
   padding: 5px;
@@ -241,12 +244,9 @@ onMounted(async () => {
 .v-home__product-featurerd__title {
   height: 60px;
   color: var(--vt-c-white);
-  font-family: "ItcDemi";
+  font-family: var(--secondary-font);
   font-size: 1.5rem;
   text-align: center;
-  background-color: var(--vt-c-indigo);
-  border-radius: 15px 15px 0 0;
-  box-shadow: 4px -4px 18px rgba(0, 0, 0, 0.1);
   padding: 10px 20px;
 }
 .v-home__product-featured__list {

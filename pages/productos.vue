@@ -156,50 +156,80 @@ function updateFilteredBrands() {
 
 <style lang="scss" scoped>
 .v-products {
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 40px 0;
+  margin: 20px 0;
 }
-.v-products__title {
-  font-family: "ItcDemi";
-  font-size: 2em;
-  border-bottom: solid 2px var(--secondary-color);
-}
+
 .v-products__container {
-  width: calc(100%);
+  width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: 60px;
+  flex-direction: column; /* mobile-first */
+  align-items: center;
+  gap: 20px;
 }
+
+/* Filtros */
 .v-products__filters {
-  width: 200px;
-  height: 400px;
+  width: 90%;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
 }
+
 .v-products__filters__title {
-  font-family: "ItcDemi";
-  font-size: 1.4em;
-  border-bottom: solid 2px var(--secondary-color);
-  margin-bottom: 20px;
-}
-.v-products__filters__subtitles {
-  font-family: "ItcDemi";
+  font-family: var(--secondary-font);
   font-size: 1.2em;
+  border-bottom: solid 2px var(--secondary-color);
+  margin-bottom: 10px;
 }
-.v-products__filters__select {
-  background-color: var(--secondary-color);
+
+.v-products__filters__subtitles {
+  font-family: var(--secondary-font);
+  font-size: 1em;
 }
+
+/* Lista de productos */
 .v-products__list {
-  width: 1200px;
+  width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
   flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .v-products__container {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .v-products__filters {
+    width: 220px;
+    height: auto;
+    flex-shrink: 0;
+    border: none;
+    border-right: 1px solid #ddd;
+  }
+
+  .v-products__list {
+    flex: 1;
+    justify-content: flex-start;
+  }
+}
+
+/* Desktop grande */
+@media (min-width: 1200px) {
+  .v-products__list {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
 }
 </style>

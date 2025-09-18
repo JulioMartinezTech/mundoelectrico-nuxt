@@ -7,7 +7,7 @@
 
         <div class="m-register__form__img-container">
           <img
-            src="../../assets/img/logo-isotipo.png"
+            src="../../assets/img/Mundo-electrico-isotipo.svg"
             alt="Logo"
             class="m-register__form__logo"
           />
@@ -143,7 +143,9 @@ const handleRegister = async () => {
   align-items: center;
 }
 .m-register__form-card {
-  width: 450px;
+  width: 100%;
+  max-width: 450px;
+  min-height: 600px;
   min-height: 600px;
   background-color: var(--vt-c-white);
   border-radius: 16px;
@@ -158,8 +160,9 @@ const handleRegister = async () => {
   z-index: 999;
 }
 .m-register__form__img-container {
-  width: 150px;
-  height: 150px;
+  width: 80px;
+  height: 80px;
+  margin-top: 30px;
 }
 .m-register__form__logo {
   width: 100%;
@@ -167,7 +170,7 @@ const handleRegister = async () => {
 }
 .m-register__form__title {
   color: var(--secondary-color);
-  font-family: "ItcDemi";
+  font-family: var(--secondary-font);
   font-size: 1.7rem;
   font-weight: 800;
   text-align: center;
@@ -192,7 +195,7 @@ const handleRegister = async () => {
   height: 35px;
   border-radius: 18px;
   background-color: var(--secondary-color);
-  font-family: "ItcDemi";
+  font-family: var(--secondary-font);
   color: var(--vt-c-white);
 }
 .m-register__form__link {

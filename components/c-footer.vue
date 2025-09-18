@@ -1,6 +1,8 @@
 <template>
   <footer class="c-footer">
-    Todos los derechos reservados para MUNDO ELÉCTRICO @2024
+    <p class="c-footer__text">
+      Todos los derechos reservados para MUNDO ELÉCTRICO @2025
+    </p>
   </footer>
 </template>
 
@@ -16,5 +18,15 @@
   align-items: flex-end;
   padding: 10px 0;
   color: var(--vt-c-white);
+}
+.c-footer__text {
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+@media (min-width: 700px) {
+  .c-footer__text {
+    font-size: 1rem;
+  }
 }
 </style>

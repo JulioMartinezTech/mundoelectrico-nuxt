@@ -1,0 +1,23 @@
+export type StrapiProduct = {
+  id: string;
+  documentId: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  product_name: string;
+  description: string;
+  product_code: string;
+  reference_code: string;
+  amperage: string;
+  voltage: string;
+  plinth: string;
+  wattage: string;
+  luminocity: string;
+  temperature: string;
+  caliber: string;
+  certification: string;
+  measures: string;
+  dimensions: string;
+  color: string;
+  capacity: string;
+};

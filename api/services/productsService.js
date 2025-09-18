@@ -1,5 +1,5 @@
-// const apiBaseUrl =
-//   useRuntimeConfig().public.apiBase || "http://localhost:1337/api";
+const apiBaseUrl =
+  import.meta.env.NUXT_PUBLIC_API_URL || "http://localhost:1337";
 
 // Función genérica para manejar errores
 const handleApiError = (error) => {
@@ -36,7 +36,7 @@ export const getProducts = async ({
     query.append("populate", "*");
 
     const data = await $fetch(
-      `http://localhost:1337/api/products?${query.toString()}`,
+      `${apiBaseUrl}/api/products?${query.toString()}`,
       {
         method: "GET",
         headers: {
@@ -51,18 +51,29 @@ export const getProducts = async ({
   }
 };
 
+export const getProductsByName = async (name) => {
+  if (!name || name.length < 3) return null;
+  try {
+    const data = await $fetch(
+      `${apiBaseUrl}/api/products?filters[product_name][$containsi]=${encodeURIComponent(
+        name
+      )}`
+    );
+    return data.data || null;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 // Traer un producto por ID
 export const getProduct = async (id) => {
   try {
-    const data = await $fetch(
-      `http://localhost:1337/api/products/${id}?populate=*`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const data = await $fetch(`${apiBaseUrl}/api/products/${id}?populate=*`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     return data?.data || null;
   } catch (error) {
     handleApiError(error);
@@ -71,15 +82,12 @@ export const getProduct = async (id) => {
 
 export const getCategories = async () => {
   try {
-    const data = await $fetch(
-      "http://localhost:1337/api/categories?sort=name:asc",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const data = await $fetch(`${apiBaseUrl}/api/categories?sort=name:asc`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     return data?.data || [];
   } catch (error) {
     handleApiError(error);
@@ -88,15 +96,12 @@ export const getCategories = async () => {
 
 export const getBrands = async () => {
   try {
-    const data = await $fetch(
-      "http://localhost:1337/api/brands?sort=name:asc",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const data = await $fetch(`${apiBaseUrl}/api/brands?sort=name:asc`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     return data?.data || [];
   } catch (error) {
     handleApiError(error);
@@ -106,7 +111,7 @@ export const getBrands = async () => {
 export const getBrandsWithProductsAndCategories = async () => {
   try {
     const data = await $fetch(
-      "http://localhost:1337/api/brands?populate[products][populate]=categories",
+      `${apiBaseUrl}/api/brands?populate[products][populate]=categories`,
       {
         method: "GET",
         headers: {

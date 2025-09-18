@@ -1,13 +1,13 @@
 import type { AuthResponse } from "~/types/auth";
 
-const baseUrl = "http://localhost:1337/api";
+const baseUrl = import.meta.env.NUXT_PUBLIC_API_URL || "http://localhost:1337";
 
 export const registerUser = async (data: {
   username: string;
   email: string;
   password: string;
 }): Promise<AuthResponse> => {
-  return await $fetch(`${baseUrl}/auth/local/register`, {
+  return await $fetch(`${baseUrl}/api/auth/local/register`, {
     method: "POST",
     body: data,
   });
@@ -17,7 +17,7 @@ export const loginUser = async (data: {
   identifier: string;
   password: string;
 }): Promise<AuthResponse> => {
-  return await $fetch(`${baseUrl}/auth/local`, {
+  return await $fetch(`${baseUrl}/api/auth/local`, {
     method: "POST",
     body: data,
   });
@@ -25,7 +25,7 @@ export const loginUser = async (data: {
 
 export const getAuthenticatedUser = async (token: string) => {
   try {
-    return await $fetch(`${baseUrl}/users/me`, {
+    return await $fetch(`${baseUrl}/api/users/me`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -96,67 +96,83 @@ onMounted(async () => {
   justify-content: center;
   align-items: center;
   gap: 30px;
+  padding: 20px;
 }
+
+/* History */
 .v-about-us__history-container {
-  width: 90%;
+  width: 100%;
   display: flex;
+  flex-direction: column; /* mobile-first */
   justify-content: center;
   align-items: center;
   gap: 20px;
 }
+
 .v-about-us__image-container {
-  width: 50%;
-  height: 600px;
+  width: 100%;
+  height: 300px; /* más pequeño en mobile */
   background-color: rgb(154, 154, 154);
 }
+
 .v-about-us__history {
-  width: 50%;
-  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 20px;
+  gap: 16px;
 }
+
 .v-about-us__title {
   font-weight: 800;
   color: var(--secondary-color);
-  font-size: 1.7rem;
+  font-size: 1.5rem;
+  text-align: center;
 }
+
+/* Values */
 .v-about-us__values {
-  width: 90%;
+  width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column; /* mobile-first */
   gap: 20px;
 }
+
 .v-about-us__values__container {
-  width: 50%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   gap: 20px;
 }
+
 .v-about-us__value {
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  /* align-items: center; */
   gap: 6px;
 }
+
 .v-about-us__value__title {
   font-weight: 800;
   color: var(--secondary-color);
-  font-size: 1.3rem;
+  font-size: 1.2rem;
+  text-align: center;
 }
+
 .v-about-us__value__paragraph {
-  width: 60%;
+  width: 100%;
   text-align: justify;
 }
+
 .v-about-us__value__image-container {
   width: 100%;
-  height: 400px;
+  height: 250px;
   background-color: rgb(154, 154, 154);
+}
+
+/* Desktop / Tablet */
+@media (min-width: 768px) {
+  .v-about-us__history-container {
+    flex-direction: row;
+  }
 }
 </style>

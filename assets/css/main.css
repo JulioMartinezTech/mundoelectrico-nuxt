@@ -13,7 +13,7 @@
 
 
 * {
-  font-family: 'ItcLight';
+  font-family: var(--primary-font);
 }
 
 /* #app {

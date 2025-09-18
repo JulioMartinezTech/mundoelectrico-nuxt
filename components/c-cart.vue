@@ -1,13 +1,13 @@
 <template>
   <div class="c-cart">
-    <div class="c-cart__icon-container" @click="openCart">
+    <NuxtLink to="/carrito" class="c-cart__icon-container">
       <img
         src="../assets/img/cart-icon.svg"
         alt="carrito-icono"
         class="c-cart__icon"
       />
       <div class="c-cart__counter">{{ cartCounter }}</div>
-    </div>
+    </NuxtLink>
   </div>
 </template>
 
@@ -15,7 +15,7 @@
 const cart = useCartStore();
 const cartCounter = computed(() => cart.products.length);
 const ui = useUIStore();
-const openCart = () => (ui.showCartModal = true);
+// const openCart = () => (ui.showCartModal = true);
 </script>
 
 <style scoped>
