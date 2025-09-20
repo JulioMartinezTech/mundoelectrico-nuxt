@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  ssr: true,
   devServer: {
     host: "0.0.0.0", // accesible desde LAN
     port: 3000,
