@@ -1,4 +1,4 @@
-import type { AuthResponse } from "../../types/auth";
+import type { AuthResponse } from "../../types/auth.ts";
 
 const baseUrl = import.meta.env.NUXT_PUBLIC_API_URL || "http://localhost:1337";
 
