@@ -82,7 +82,7 @@ export const getProduct = async (id) => {
 
 export const getCategories = async () => {
   try {
-    const data = await $fetch(`${apiBaseUrl}/api/categories?sort=name:asc`, {
+    const data = await $fetch(`${apiBaseUrl}/api/categorias?sort=nombre:asc`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
