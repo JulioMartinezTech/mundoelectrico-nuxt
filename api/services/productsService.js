@@ -35,15 +35,12 @@ export const getProducts = async ({
 
     query.append("populate", "*");
 
-    const data = await $fetch(
-      `${apiBaseUrl}/api/productos?${query.toString()}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const data = await $fetch(`/api/productos?${query.toString()}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     return data || null;
   } catch (error) {
@@ -55,9 +52,7 @@ export const getProductsByName = async (name) => {
   if (!name || name.length < 3) return null;
   try {
     const data = await $fetch(
-      `${apiBaseUrl}/api/productos?filters[nombre][$containsi]=${encodeURIComponent(
-        name
-      )}`
+      `/api/productos?filters[nombre][$containsi]=${encodeURIComponent(name)}`
     );
     return data.data || null;
   } catch (error) {
@@ -68,7 +63,7 @@ export const getProductsByName = async (name) => {
 // Traer un producto por ID
 export const getProduct = async (id) => {
   try {
-    const data = await $fetch(`${apiBaseUrl}/api/productos/${id}?populate=*`, {
+    const data = await $fetch(`/api/productos/${id}?populate=*`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -82,7 +77,7 @@ export const getProduct = async (id) => {
 
 export const getCategories = async () => {
   try {
-    const data = await $fetch(`${apiBaseUrl}/api/categorias?sort=nombre:asc`, {
+    const data = await $fetch(`/api/categorias?sort=nombre:asc`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -96,7 +91,7 @@ export const getCategories = async () => {
 
 export const getBrands = async () => {
   try {
-    const data = await $fetch(`${apiBaseUrl}/api/marcas?sort=nombre:asc`, {
+    const data = await $fetch(`/api/marcas?sort=nombre:asc`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -111,7 +106,7 @@ export const getBrands = async () => {
 export const getBrandsWithProductsAndCategories = async () => {
   try {
     const data = await $fetch(
-      `${apiBaseUrl}/api/marcas?populate[productos][populate]=categorias`,
+      `/api/marcas?populate[productos][populate]=categorias`,
       {
         method: "GET",
         headers: {
