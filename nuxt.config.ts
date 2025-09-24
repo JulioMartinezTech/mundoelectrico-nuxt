@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   ssr: true,
   nitro: {
-    preset: "vercel", // <--- esto fuerza que Nuxt genere funciones serverless
+    preset: process.env.NUXT_PRESET || (process.env.NODE_ENV === "production" ? "vercel" : "node-server"), // Permite override con NUXT_PRESET
   },
   devServer: {
     host: "0.0.0.0", // accesible desde LAN

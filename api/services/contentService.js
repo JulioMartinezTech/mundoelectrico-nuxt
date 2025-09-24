@@ -1,6 +1,3 @@
-const config = useRuntimeConfig();
-const apiBaseUrl = config.public.apiBase;
-
 // Función genérica para manejar errores
 const handleApiError = (error) => {
   console.error("API Error:", error?.data?.message || error.message);
@@ -10,6 +7,9 @@ const handleApiError = (error) => {
 // Función para traer contenido de una página específica
 export const fetchPageContent = async () => {
   try {
+    const config = useRuntimeConfig();
+    const apiBaseUrl = config.public.apiBase;
+    
     const data = await $fetch(`${apiBaseUrl}/api/about-page`, {
       method: "GET",
       headers: {

@@ -1,8 +1,6 @@
 // import { useModalStore } from "~/stores/useModalStore";
 import { ofetch } from "ofetch";
 
-const config = useRuntimeConfig();
-const apiBaseUrl = config.public.apiBase;
 type ContactEmail = {
   name: string;
   phone: string;
@@ -24,6 +22,9 @@ export const sendContactEmail = async (
   contactData: ContactEmail
 ): Promise<any | null> => {
   try {
+    const config = useRuntimeConfig();
+    const apiBaseUrl = config.public.apiBase;
+    
     const response = await ofetch(`${apiBaseUrl}/api/contact`, {
       method: "POST",
       headers: {
@@ -43,6 +44,9 @@ export const sendQuoteRequest = async (
   quoteRequestData: QuoteRequest
 ): Promise<any | null> => {
   try {
+    const config = useRuntimeConfig();
+    const apiBaseUrl = config.public.apiBase;
+    
     const response = await ofetch(`${apiBaseUrl}/api/quote-request`, {
       method: "POST",
       headers: {

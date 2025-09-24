@@ -1,6 +1,3 @@
-const config = useRuntimeConfig();
-const apiBaseUrl = config.public.apiBase;
-
 // Función genérica para manejar errores
 const handleApiError = (error) => {
   console.error("API Error:", error?.data?.message || error.message);
@@ -16,6 +13,9 @@ export const getProducts = async ({
   sort = "nombre:asc",
 } = {}) => {
   try {
+    const config = useRuntimeConfig();
+    const apiBaseUrl = config.public.apiBase;
+    
     const query = new URLSearchParams();
 
     query.append("pagination[pageSize]", pageSize);
@@ -54,6 +54,9 @@ export const getProducts = async ({
 export const getProductsByName = async (name) => {
   if (!name || name.length < 3) return null;
   try {
+    const config = useRuntimeConfig();
+    const apiBaseUrl = config.public.apiBase;
+    
     const data = await $fetch(
       `${apiBaseUrl}/api/productos?filters[nombre][$containsi]=${encodeURIComponent(
         name
@@ -68,6 +71,9 @@ export const getProductsByName = async (name) => {
 // Traer un producto por ID
 export const getProduct = async (id) => {
   try {
+    const config = useRuntimeConfig();
+    const apiBaseUrl = config.public.apiBase;
+    
     const data = await $fetch(`${apiBaseUrl}/api/productos/${id}?populate=*`, {
       method: "GET",
       headers: {
@@ -82,6 +88,9 @@ export const getProduct = async (id) => {
 
 export const getCategories = async () => {
   try {
+    const config = useRuntimeConfig();
+    const apiBaseUrl = config.public.apiBase;
+    
     const data = await $fetch(`${apiBaseUrl}/api/categorias?sort=nombre:asc`, {
       method: "GET",
       headers: {
@@ -96,6 +105,9 @@ export const getCategories = async () => {
 
 export const getBrands = async () => {
   try {
+    const config = useRuntimeConfig();
+    const apiBaseUrl = config.public.apiBase;
+    
     const data = await $fetch(`${apiBaseUrl}/api/marcas?sort=nombre:asc`, {
       method: "GET",
       headers: {
@@ -110,6 +122,9 @@ export const getBrands = async () => {
 
 export const getBrandsWithProductsAndCategories = async () => {
   try {
+    const config = useRuntimeConfig();
+    const apiBaseUrl = config.public.apiBase;
+    
     const data = await $fetch(
       `${apiBaseUrl}/api/marcas?populate[productos][populate]=categorias`,
       {
