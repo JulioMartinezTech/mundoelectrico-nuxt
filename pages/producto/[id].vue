@@ -129,10 +129,10 @@ onMounted(async () => {
     product.value = response;
 
     response.categorias.map((c) => {
-      categorias.value.push(c.documentId);
+      categories.value.push(c.documentId);
     });
 
-    category.value = categorias.value[0];
+    category.value = categories.value[0];
     productName.value = response.nombre.toUpperCase();
     productDescription.value =
       response.descripcion || "No hay descripción actualmente";
@@ -151,9 +151,7 @@ onMounted(async () => {
     ];
 
     if (response.galeria && response.galeria.length > 0) {
-      galeriaUrls.value = response.galeria.map((img) =>
-        img.url.startsWith("http") ? img.url : `${img.url}`
-      );
+      galeriaUrls.value = response.galeria.map((img) => img.url);
       mainImageUrl.value = galeriaUrls.value[0];
     } else {
       galeriaUrls.value = [];
