@@ -1,4 +1,5 @@
-const apiBaseUrl = import.meta.env.NUXT_PUBLIC_API_URL;
+const config = useRuntimeConfig();
+const apiBaseUrl = config.public.apiBase;
 
 // Función genérica para manejar errores
 const handleApiError = (error) => {

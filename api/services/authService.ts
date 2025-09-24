@@ -1,6 +1,7 @@
 import type { AuthResponse } from "../../types/auth.ts";
 
-const baseUrl = import.meta.env.NUXT_PUBLIC_API_URL;
+const config = useRuntimeConfig();
+const baseUrl = config.public.apiBase;
 
 export const registerUser = async (data: {
   username: string;
