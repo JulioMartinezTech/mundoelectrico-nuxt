@@ -78,7 +78,7 @@ onMounted(async () => {
     { value: "", name: "TODAS" },
     ...catData.map((c) => ({
       value: c.documentId,
-      name: formatLabel(c.name),
+      name: formatLabel(c.nombre),
     })),
   ];
 
@@ -130,14 +130,14 @@ function updateFilteredBrands() {
       { value: "", name: "TODAS" },
       ...allBrands.value.map((b) => ({
         value: b.documentId,
-        name: formatLabel(b.name),
+        name: formatLabel(b.nombre),
       })),
     ];
   } else {
     // Filtrar marcas que tengan productos en la categoría seleccionada
     const filtered = allBrands.value.filter((brand) => {
-      return brand.products.some((product) =>
-        product.categories.some(
+      return brand.productos.some((product) =>
+        product.categorias.some(
           (cat) => cat.documentId === selectedCategory.value
         )
       );
@@ -147,7 +147,7 @@ function updateFilteredBrands() {
       { value: "", name: "TODAS" },
       ...filtered.map((b) => ({
         value: b.documentId,
-        name: formatLabel(b.name),
+        name: formatLabel(b.nombre),
       })),
     ];
   }

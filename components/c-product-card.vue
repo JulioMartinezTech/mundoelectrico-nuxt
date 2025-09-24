@@ -9,7 +9,7 @@
         <div class="c-product-card__image-wrapper">
           <img
             v-if="data.galeria"
-            :src="`${apiBase}${data.galeria[0].url}`"
+            :src="`${data.galeria[0].url}`"
             :alt="data.nombre"
             class="c-product-card__image"
             @load="handleImageLoaded"
