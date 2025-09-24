@@ -1,6 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   ssr: true,
+  nitro: {
+    preset: "vercel", // <--- esto fuerza que Nuxt genere funciones serverless
+  },
   devServer: {
     host: "0.0.0.0", // accesible desde LAN
     port: 3000,
