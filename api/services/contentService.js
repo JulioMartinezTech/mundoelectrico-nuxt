@@ -1,5 +1,4 @@
-const apiBaseUrl =
-  import.meta.env.NUXT_PUBLIC_API_URL || "http://localhost:1337";
+const apiBaseUrl = import.meta.env.NUXT_PUBLIC_API_URL;
 
 // Función genérica para manejar errores
 const handleApiError = (error) => {

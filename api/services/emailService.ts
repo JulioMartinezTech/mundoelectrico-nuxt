@@ -1,8 +1,7 @@
 // import { useModalStore } from "~/stores/useModalStore";
 import { ofetch } from "ofetch";
 
-const apiBaseUrl =
-  import.meta.env.NUXT_PUBLIC_API_URL || "http://localhost:1337";
+const apiBaseUrl = import.meta.env.NUXT_PUBLIC_API_URL;
 type ContactEmail = {
   name: string;
   phone: string;

@@ -1,5 +1,4 @@
-const apiBaseUrl =
-  import.meta.env.NUXT_PUBLIC_API_URL || "http://localhost:1337";
+const apiBaseUrl = import.meta.env.NUXT_PUBLIC_API_URL;
 
 // Función genérica para manejar errores
 const handleApiError = (error) => {
@@ -13,7 +12,7 @@ export const getProducts = async ({
   page = 1,
   categoryId = null,
   brandId = null,
-  sort = "product_name:asc",
+  sort = "nombre:asc",
 } = {}) => {
   try {
     const query = new URLSearchParams();
@@ -22,11 +21,11 @@ export const getProducts = async ({
     query.append("pagination[page]", page);
 
     if (categoryId) {
-      query.append("filters[categories][documentId][$eq]", categoryId);
+      query.append("filters[categorias][documentId][$eq]", categoryId);
     }
 
     if (brandId) {
-      query.append("filters[brand][documentId][$eq]", brandId);
+      query.append("filters[marca][documentId][$eq]", brandId);
     }
 
     if (sort) {
@@ -36,7 +35,7 @@ export const getProducts = async ({
     query.append("populate", "*");
 
     const data = await $fetch(
-      `${apiBaseUrl}/api/products?${query.toString()}`,
+      `${apiBaseUrl}/api/productos?${query.toString()}`,
       {
         method: "GET",
         headers: {
@@ -55,7 +54,7 @@ export const getProductsByName = async (name) => {
   if (!name || name.length < 3) return null;
   try {
     const data = await $fetch(
-      `${apiBaseUrl}/api/products?filters[product_name][$containsi]=${encodeURIComponent(
+      `${apiBaseUrl}/api/productos?filters[nombre][$containsi]=${encodeURIComponent(
         name
       )}`
     );
@@ -68,7 +67,7 @@ export const getProductsByName = async (name) => {
 // Traer un producto por ID
 export const getProduct = async (id) => {
   try {
-    const data = await $fetch(`${apiBaseUrl}/api/products/${id}?populate=*`, {
+    const data = await $fetch(`${apiBaseUrl}/api/productos/${id}?populate=*`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -96,7 +95,7 @@ export const getCategories = async () => {
 
 export const getBrands = async () => {
   try {
-    const data = await $fetch(`${apiBaseUrl}/api/brands?sort=name:asc`, {
+    const data = await $fetch(`${apiBaseUrl}/api/marcas?sort=nombre:asc`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -111,7 +110,7 @@ export const getBrands = async () => {
 export const getBrandsWithProductsAndCategories = async () => {
   try {
     const data = await $fetch(
-      `${apiBaseUrl}/api/brands?populate[products][populate]=categories`,
+      `${apiBaseUrl}/api/marcas?populate[productos][populate]=categorias`,
       {
         method: "GET",
         headers: {
@@ -123,12 +122,12 @@ export const getBrandsWithProductsAndCategories = async () => {
     // Transformar respuesta en un array más limpio
     return data?.data.map((brand) => ({
       documentId: brand.documentId,
-      name: brand.name,
-      products: brand.products.map((product) => ({
+      nombre: brand.nombre,
+      productos: brand.productos.map((product) => ({
         id: product.documentId,
-        categories: product.categories.map((category) => ({
+        categorias: product.categorias.map((category) => ({
           documentId: category.documentId, // O usa category.attributes.documentId si tienes uno
-          name: category.name,
+          nombre: category.nombre,
         })),
       })),
     }));
