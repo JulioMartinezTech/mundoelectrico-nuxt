@@ -149,7 +149,9 @@ onMounted(async () => {
 
     if (response.gallery && response.gallery.length > 0) {
       galleryUrls.value = response.gallery.map((img) =>
-        img.url.startsWith("http") ? img.url : `http://localhost:1337${img.url}`
+        img.url.startsWith("http")
+          ? img.url
+          : `process.env.NUXT_PUBLIC_API_URL${img.url}`
       );
       mainImageUrl.value = galleryUrls.value[0];
     } else {

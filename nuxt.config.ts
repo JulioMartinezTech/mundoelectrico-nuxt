@@ -29,7 +29,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     strapiApiToken: process.env.NUXT_STRAPI_TOKEN, // Private
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_URL || "http://localhost:1337/api",
+      apiBase: process.env.NUXT_PUBLIC_API_URL,
     },
   },
   css: ["~/assets/css/main.css"],

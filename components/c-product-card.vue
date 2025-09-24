@@ -9,7 +9,7 @@
         <div class="c-product-card__image-wrapper">
           <img
             v-if="data.gallery"
-            :src="`http://localhost:1337${data.gallery[0].url}`"
+            :src="`process.env.NUXT_PUBLIC_API_URL${data.gallery[0].url}`"
             :alt="data.product_name"
             class="c-product-card__image"
             @load="handleImageLoaded"
