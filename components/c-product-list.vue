@@ -58,7 +58,7 @@ const props = defineProps({
   category: String,
   sort: {
     type: String,
-    default: "product_name:asc", // orden alfabético ascendente por defecto
+    default: "nombre:asc", // orden alfabético ascendente por defecto
   },
   size: Number,
   onPage: Number,

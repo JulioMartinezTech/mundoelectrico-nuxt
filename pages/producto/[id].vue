@@ -18,9 +18,9 @@
             />
           </div>
         </div>
-        <div class="v-product-detail__gallery-container">
+        <div class="v-product-detail__galeria-container">
           <div
-            v-for="(url, index) in galleryUrls"
+            v-for="(url, index) in galeriaUrls"
             :key="index"
             class="v-product-detail__image-frame"
           >
@@ -29,8 +29,8 @@
               alt="Imagen de producto"
               :class="
                 mainImageUrl === url
-                  ? 'v-product-details__gallery-image__selected'
-                  : 'v-product-details__gallery-image'
+                  ? 'v-product-details__galeria-image__selected'
+                  : 'v-product-details__galeria-image'
               "
               @click="handleMainImageUrl(url)"
             />
@@ -58,7 +58,7 @@
             @actionButton="
               () =>
                 cart.addProduct({
-                  id: product.product_code,
+                  id: product.codigo_producto,
                   name: productName,
                   imgUrl: mainImageUrl,
                 })
@@ -108,7 +108,7 @@ const cart = useCartStore();
 const route = useRoute();
 const productId = route.params.id;
 const product = ref(null);
-const galleryUrls = ref([]);
+const galeriaUrls = ref([]);
 const mainImageUrl = ref("");
 //estoy guardando todas las categorias asociadas a este producto por si luego hago una query para traerme diferentes listas de productos y juntarlas
 const categories = ref([]);
@@ -133,7 +133,7 @@ onMounted(async () => {
     });
 
     category.value = categories.value[0];
-    productName.value = response.product_name.toUpperCase();
+    productName.value = response.nombre.toUpperCase();
     productDescription.value =
       response.description || "No hay descripción actualmente";
     technicalValues.value = [
@@ -150,13 +150,13 @@ onMounted(async () => {
       { name: "Luminosidad", value: response.luminocity || "N/A" },
     ];
 
-    if (response.gallery && response.gallery.length > 0) {
-      galleryUrls.value = response.gallery.map((img) =>
+    if (response.galeria && response.galeria.length > 0) {
+      galeriaUrls.value = response.galeria.map((img) =>
         img.url.startsWith("http") ? img.url : `${apiBase}${img.url}`
       );
-      mainImageUrl.value = galleryUrls.value[0];
+      mainImageUrl.value = galeriaUrls.value[0];
     } else {
-      galleryUrls.value = [];
+      galeriaUrls.value = [];
     }
   } else {
     console.error("Producto no encontrado");
@@ -225,13 +225,13 @@ onMounted(async () => {
   width: 90%;
   margin-top: 15px;
 }
-.v-product-detail__gallery-container {
+.v-product-detail__galeria-container {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
 }
-.v-product-details__gallery-image {
+.v-product-details__galeria-image {
   width: 80px;
   height: 80px;
   object-fit: cover;
@@ -239,7 +239,7 @@ onMounted(async () => {
   cursor: pointer;
   padding: 4px;
 }
-.v-product-details__gallery-image__selected {
+.v-product-details__galeria-image__selected {
   width: 80px;
   height: 80px;
   object-fit: cover;

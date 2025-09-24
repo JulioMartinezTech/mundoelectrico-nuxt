@@ -4,7 +4,7 @@ export type StrapiProduct = {
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
-  product_name: string;
+  nombre: string;
   description: string;
   product_code: string;
   reference_code: string;

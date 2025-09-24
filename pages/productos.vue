@@ -55,11 +55,11 @@ const allBrands = ref([]); // Lista original de marcas (sin filtrar)
 const brands = ref([]); // Lista filtrada según la categoría
 const selectedCategory = ref("");
 const selectedBrand = ref("");
-const sortOrder = ref("product_name:asc");
+const sortOrder = ref("nombre:asc");
 
 const sortOptions = [
-  { value: "product_name:asc", name: "A-Z" },
-  { value: "product_name:desc", name: "Z-A" },
+  { value: "nombre:asc", name: "A-Z" },
+  { value: "nombre:desc", name: "Z-A" },
 ];
 
 const formatLabel = (str) => {
@@ -91,7 +91,7 @@ onMounted(async () => {
   // Guarda temporalmente query params
   const initialCategory = route.query.category || "";
   const initialBrand = route.query.brand || "";
-  const initialSort = route.query.sort || "product_name:asc";
+  const initialSort = route.query.sort || "nombre:asc";
 
   //console para ver que trae el parametro brand de la url
 

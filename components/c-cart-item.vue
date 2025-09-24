@@ -5,7 +5,7 @@
     </div>
     <div class="c-cart-item__description-container">
       <div class="c-cart-item__text-container">
-        <p class="c-cart-item__item-name">{{ props.name }}</p>
+        <p class="c-cart-item__item-nombre">{{ props.name }}</p>
         <p class="c-cart-item__item-code">{{ props.id }}</p>
       </div>
       <div class="c-cart-item__item-counter">

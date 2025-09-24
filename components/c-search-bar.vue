@@ -43,7 +43,7 @@
         :class="{ 'is-active': index === activeIndex }"
         @click="selectProduct(product)"
       >
-        <p>{{ product.product_name }}</p>
+        <p>{{ product.nombre }}</p>
       </div>
     </div>
   </div>
@@ -106,8 +106,8 @@ function selectActive() {
 }
 
 function selectProduct(product: StrapiProduct) {
-  searchText.value = product.product_name;
-  inputText.value = product.product_name;
+  searchText.value = product.nombre;
+  inputText.value = product.nombre;
   products.value = [];
   productSelected.value = product.documentId;
   activeIndex.value = -1;

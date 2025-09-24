@@ -8,9 +8,9 @@
 
         <div class="c-product-card__image-wrapper">
           <img
-            v-if="data.gallery"
-            :src="`${apiBase}${data.gallery[0].url}`"
-            :alt="data.product_name"
+            v-if="data.galeria"
+            :src="`${apiBase}${data.galeria[0].url}`"
+            :alt="data.nombre"
             class="c-product-card__image"
             @load="handleImageLoaded"
             @error="handleImageLoaded"
@@ -19,9 +19,9 @@
             height="150"
           />
           <img
-            v-else-if="!data.gallery"
+            v-else-if="!data.galeria"
             src="../assets/img/Mundo-electrico-default.svg"
-            :alt="data.product_name"
+            :alt="data.nombre"
             class="c-product-card__image"
             @load="handleImageLoaded"
             @error="handleImageLoaded"
@@ -35,17 +35,17 @@
       </div>
       <div class="c-product-card__back">
         <div class="c-product-card__back__code">
-          {{ props.data.product_code }}
+          {{ props.data.codigo_producto }}
         </div>
         <div class="c-product-card__back__name">
-          {{ capitalizeFirstLetter(data.product_name) }}
+          {{ capitalizeFirstLetter(data.nombre) }}
         </div>
         <div class="c-product-card__back__button">
           <CButton text="Info" @actionButton="handleButtonClick" />
         </div>
         <!-- <div class="c-product-card__text-container">
           <p class="c-product-card__text-container__text">
-            {{ capitalizeFirstLetter(data.product_name) }}
+            {{ capitalizeFirstLetter(data.nombre) }}
           </p>
         </div> -->
       </div>
