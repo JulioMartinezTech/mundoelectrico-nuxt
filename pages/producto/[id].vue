@@ -128,31 +128,31 @@ onMounted(async () => {
   if (response) {
     product.value = response;
 
-    response.categories.map((c) => {
-      categories.value.push(c.documentId);
+    response.categorias.map((c) => {
+      categorias.value.push(c.documentId);
     });
 
-    category.value = categories.value[0];
+    category.value = categorias.value[0];
     productName.value = response.nombre.toUpperCase();
     productDescription.value =
-      response.description || "No hay descripción actualmente";
+      response.descripcion || "No hay descripción actualmente";
     technicalValues.value = [
-      { name: "Calibre", value: response.caliber || "N/A" },
-      { name: "Voltaje", value: response.voltage || "N/A" },
-      { name: "Dimensiones", value: response.dimensions || "N/A" },
+      { name: "Calibre", value: response.calibre || "N/A" },
+      { name: "Voltaje", value: response.voltaje || "N/A" },
+      { name: "Dimensiones", value: response.dimensiones || "N/A" },
       { name: "Color", value: response.color || "N/A" },
-      { name: "Certificaciones", value: response.certification || "N/A" },
-      { name: "Capacidad", value: response.capacity || "N/A" },
-      { name: "Temperatura", value: response.temperature || "N/A" },
-      { name: "Amperaje", value: response.amperage || "N/A" },
-      { name: "Zócalo", value: response.plinth || "N/A" },
-      { name: "Potencia", value: response.wattage || "N/A" },
-      { name: "Luminosidad", value: response.luminocity || "N/A" },
+      { name: "Certificaciones", value: response.certificacion || "N/A" },
+      { name: "Capacidad", value: response.capacidad || "N/A" },
+      { name: "Temperatura", value: response.temperatura || "N/A" },
+      { name: "Amperaje", value: response.amperaje || "N/A" },
+      { name: "Zócalo", value: response.zocalo || "N/A" },
+      { name: "Potencia", value: response.potencia || "N/A" },
+      { name: "Luminosidad", value: response.luminocidad || "N/A" },
     ];
 
     if (response.galeria && response.galeria.length > 0) {
       galeriaUrls.value = response.galeria.map((img) =>
-        img.url.startsWith("http") ? img.url : `${apiBase}${img.url}`
+        img.url.startsWith("http") ? img.url : `${img.url}`
       );
       mainImageUrl.value = galeriaUrls.value[0];
     } else {
