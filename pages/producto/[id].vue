@@ -99,6 +99,9 @@ import CTechnicalDetails from "~/components/c-technical-details.vue";
 //import services
 import productsService from "@/api/services/productsService";
 
+const config = useRuntimeConfig();
+const apiBase = config.public.apiBase;
+
 //import store
 const cart = useCartStore();
 
@@ -149,9 +152,7 @@ onMounted(async () => {
 
     if (response.gallery && response.gallery.length > 0) {
       galleryUrls.value = response.gallery.map((img) =>
-        img.url.startsWith("http")
-          ? img.url
-          : `process.env.NUXT_PUBLIC_API_URL${img.url}`
+        img.url.startsWith("http") ? img.url : `${apiBase}${img.url}`
       );
       mainImageUrl.value = galleryUrls.value[0];
     } else {

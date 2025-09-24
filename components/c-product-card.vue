@@ -9,7 +9,7 @@
         <div class="c-product-card__image-wrapper">
           <img
             v-if="data.gallery"
-            :src="`process.env.NUXT_PUBLIC_API_URL${data.gallery[0].url}`"
+            :src="`${apiBase}${data.gallery[0].url}`"
             :alt="data.product_name"
             class="c-product-card__image"
             @load="handleImageLoaded"
@@ -75,6 +75,9 @@ const capitalizeFirstLetter = (str) => {
 const handleButtonClick = () => {
   alert("click");
 };
+
+const config = useRuntimeConfig();
+const apiBase = config.public.apiBase;
 </script>
 
 <style lang="scss" scoped>
