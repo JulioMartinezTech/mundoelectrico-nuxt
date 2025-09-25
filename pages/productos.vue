@@ -8,19 +8,19 @@
         <fwb-select
           v-model="selectedCategory"
           :options="categories"
-          placeholder="Selecciona una cateroria"
+          placeholder="Selecciona una"
         />
         <h3 class="v-products__filters__subtitles">Marcas</h3>
         <fwb-select
           v-model="selectedBrand"
           :options="brands"
-          placeholder="Selecciona una marca"
+          placeholder="Selecciona"
         />
         <h3 class="v-products__filters__subtitles">Ordenar</h3>
         <fwb-select
           v-model="sortOrder"
           :options="sortOptions"
-          placeholder="Selecciona una opción"
+          placeholder="Selecciona una"
         ></fwb-select>
       </div>
       <div>
