@@ -11,6 +11,7 @@ export const getProducts = async ({
   categoryId = null,
   brandId = null,
   sort = "nombre:asc",
+  search = "",
 } = {}) => {
   try {
     const config = useRuntimeConfig();
@@ -31,6 +32,10 @@ export const getProducts = async ({
 
     if (sort) {
       query.append("sort", sort);
+    }
+
+    if (search) {
+      query.append("filters[nombre][$containsi]", search);
     }
 
     query.append("populate", "*");

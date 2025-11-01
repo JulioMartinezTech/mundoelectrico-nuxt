@@ -54,6 +54,7 @@ import CProductCardSkeleton from "./c-product-card-skeleton.vue";
 import productsService from "~/api/services/productsService";
 
 const props = defineProps({
+  search: String,
   brand: String,
   category: String,
   sort: {
@@ -85,6 +86,7 @@ const fetchProducts = async () => {
       categoryId: props.category,
       brandId: props.brand,
       sort: props.sort,
+      search: props.search,
     });
 
     let data = response?.data || [];
@@ -94,6 +96,7 @@ const fetchProducts = async () => {
     }
 
     products.value = data;
+
     pagination.value = response?.meta?.pagination || pagination.value;
   } catch (error) {
     console.error("Error al cargar productos:", error);
@@ -105,7 +108,7 @@ const fetchProducts = async () => {
 onMounted(fetchProducts);
 
 watch(
-  () => [props.brand, props.category, props.sort],
+  () => [props.search, props.brand, props.category, props.sort],
   () => {
     pagination.value.page = 1; // Resetear a la primera página
     fetchProducts();

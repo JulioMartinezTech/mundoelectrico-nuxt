@@ -14,10 +14,7 @@
       @keydown.enter.prevent="selectActive"
       @keydown.esc="closeList"
     />
-    <button
-      class="c-search-bar__icon-container"
-      @click="goToProductDetail(productSelected)"
-    >
+    <button class="c-search-bar__icon-container" @click="goToSearchResults">
       <img
         src="../assets/img/search-icon.svg"
         alt="icono de busqueda"
@@ -41,7 +38,7 @@
         role="option"
         :aria-selected="index === activeIndex"
         :class="{ 'is-active': index === activeIndex }"
-        @click="selectProduct(product)"
+        @click="goToProductDetail(product.documentId)"
       >
         <p>{{ product.nombre }}</p>
       </div>
@@ -122,6 +119,12 @@ function goToProductDetail(id: string | null) {
   isAnimating.value = true;
   if (!id) return;
   router.push(`/producto/${id}`);
+  searchText.value = "";
+}
+
+function goToSearchResults() {
+  if (!searchText.value.trim()) return;
+  router.push({ path: "/productos", query: { search: searchText.value } });
   searchText.value = "";
 }
 </script>

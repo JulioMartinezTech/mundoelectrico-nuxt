@@ -27,6 +27,7 @@
         <div></div>
         <div class="v-products__list">
           <CProductList
+            :search="filterSearch"
             :category="selectedCategory"
             :brand="selectedBrand"
             :sort="sortOrder"
@@ -53,6 +54,7 @@ const route = useRoute();
 const categories = ref([]);
 const allBrands = ref([]); // Lista original de marcas (sin filtrar)
 const brands = ref([]); // Lista filtrada según la categoría
+const filterSearch = ref("");
 const selectedCategory = ref("");
 const selectedBrand = ref("");
 const sortOrder = ref("nombre:asc");
@@ -92,6 +94,7 @@ onMounted(async () => {
   const initialCategory = route.query.category || "";
   const initialBrand = route.query.brand || "";
   const initialSort = route.query.sort || "nombre:asc";
+  const initialSearch = route.query.search || "";
 
   //console para ver que trae el parametro brand de la url
 
@@ -101,6 +104,7 @@ onMounted(async () => {
 
   selectedBrand.value = initialBrand;
   sortOrder.value = initialSort;
+  filterSearch.value = initialSearch;
   // console.log(selectedBrand.value);
 });
 
@@ -112,15 +116,23 @@ watch(selectedCategory, () => {
 });
 
 // Actualizar URL cada vez que cambian filtros
-watch([selectedCategory, selectedBrand, sortOrder], () => {
+watch([filterSearch, selectedCategory, selectedBrand, sortOrder], () => {
   router.replace({
     query: {
       category: selectedCategory.value || undefined,
       brand: selectedBrand.value || undefined,
       sort: sortOrder.value || undefined,
+      search: filterSearch.value || undefined,
     },
   });
 });
+
+watch(
+  () => route.query.search,
+  (newSearch) => {
+    filterSearch.value = newSearch || "";
+  }
+);
 
 // Función que recalcula las marcas filtradas
 function updateFilteredBrands() {
