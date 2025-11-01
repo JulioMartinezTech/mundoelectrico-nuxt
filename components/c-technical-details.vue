@@ -22,7 +22,7 @@ const props = withDefaults(defineProps<{ items: SpecItem[] }>(), {
 
 <style lang="scss" scoped>
 .c-technical-details {
-  width: 80%;
+  width: 90%;
   display: flex;
   justify-content: center;
   align-items: center;

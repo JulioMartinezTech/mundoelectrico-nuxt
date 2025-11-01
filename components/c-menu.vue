@@ -14,10 +14,18 @@
 
     <!-- Enlaces -->
     <div :class="['c-menu__links', { 'c-menu__links--open': isOpen }]">
-      <NuxtLink to="/" class="c-menu__item">INICIO</NuxtLink>
-      <NuxtLink to="/nosotros" class="c-menu__item">NOSOTROS</NuxtLink>
-      <NuxtLink to="/productos" class="c-menu__item">PRODUCTOS</NuxtLink>
-      <NuxtLink to="/contactanos" class="c-menu__item">CONTÁCTANOS</NuxtLink>
+      <NuxtLink to="/" class="c-menu__item" @click="isOpen = !isOpen"
+        >INICIO</NuxtLink
+      >
+      <NuxtLink to="/nosotros" class="c-menu__item" @click="isOpen = !isOpen"
+        >NOSOTROS</NuxtLink
+      >
+      <NuxtLink to="/productos" class="c-menu__item" @click="isOpen = !isOpen"
+        >PRODUCTOS</NuxtLink
+      >
+      <NuxtLink to="/contactanos" class="c-menu__item" @click="isOpen = !isOpen"
+        >CONTÁCTANOS</NuxtLink
+      >
 
       <!-- Login -->
       <button
@@ -67,6 +75,7 @@ const handleLoginClick = () => {
   align-items: center;
   justify-content: flex-end;
   position: relative;
+  z-index: 9999;
 }
 
 /* ---------- Botón hamburguesa ---------- */
