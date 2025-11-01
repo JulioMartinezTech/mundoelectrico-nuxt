@@ -46,9 +46,9 @@
           </p>
         </div>
       </div>
-      <div class="v-about-us__values__container">
+      <!-- <div class="v-about-us__values__container">
         <div class="v-about-us__value__image-container"></div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -128,6 +128,9 @@ onMounted(async () => {
   font-size: 1.5rem;
   text-align: center;
 }
+.v-about-us__history__text {
+  text-align: justify;
+}
 
 /* Values */
 .v-about-us__values {
@@ -135,6 +138,7 @@ onMounted(async () => {
   display: flex;
   flex-direction: column; /* mobile-first */
   gap: 20px;
+  margin-top: 50px;
 }
 
 .v-about-us__values__container {
@@ -171,8 +175,28 @@ onMounted(async () => {
 
 /* Desktop / Tablet */
 @media (min-width: 768px) {
+  .v-about-us__image-container {
+    height: 500px;
+  }
   .v-about-us__history-container {
     flex-direction: row;
+  }
+  .v-about-us__values__container {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  .v-about-us__value {
+    width: 300px;
+    gap: 60px;
+  }
+  .v-about-us__value:nth-child(2) {
+    width: 400px;
+    border-right: solid 1px var(--third-color);
+    border-left: solid 1px var(--third-color);
+    padding: 0 20px;
+  }
+  .v-about-us__value:last-child {
+    border-right: none;
   }
 }
 </style>

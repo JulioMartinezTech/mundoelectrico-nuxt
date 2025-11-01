@@ -15,7 +15,7 @@ export const getProducts = async ({
   try {
     const config = useRuntimeConfig();
     const apiBaseUrl = config.public.apiBase;
-    
+
     const query = new URLSearchParams();
 
     query.append("pagination[pageSize]", pageSize);
@@ -56,7 +56,7 @@ export const getProductsByName = async (name) => {
   try {
     const config = useRuntimeConfig();
     const apiBaseUrl = config.public.apiBase;
-    
+
     const data = await $fetch(
       `${apiBaseUrl}/api/productos?filters[nombre][$containsi]=${encodeURIComponent(
         name
@@ -73,7 +73,7 @@ export const getProduct = async (id) => {
   try {
     const config = useRuntimeConfig();
     const apiBaseUrl = config.public.apiBase;
-    
+
     const data = await $fetch(`${apiBaseUrl}/api/productos/${id}?populate=*`, {
       method: "GET",
       headers: {
@@ -90,7 +90,7 @@ export const getCategories = async () => {
   try {
     const config = useRuntimeConfig();
     const apiBaseUrl = config.public.apiBase;
-    
+
     const data = await $fetch(`${apiBaseUrl}/api/categorias?sort=nombre:asc`, {
       method: "GET",
       headers: {
@@ -107,7 +107,7 @@ export const getBrands = async () => {
   try {
     const config = useRuntimeConfig();
     const apiBaseUrl = config.public.apiBase;
-    
+
     const data = await $fetch(`${apiBaseUrl}/api/marcas?sort=nombre:asc`, {
       method: "GET",
       headers: {
@@ -124,7 +124,7 @@ export const getBrandsWithProductsAndCategories = async () => {
   try {
     const config = useRuntimeConfig();
     const apiBaseUrl = config.public.apiBase;
-    
+
     const data = await $fetch(
       `${apiBaseUrl}/api/marcas?populate[productos][populate]=categorias`,
       {
@@ -152,9 +152,24 @@ export const getBrandsWithProductsAndCategories = async () => {
   }
 };
 
+export const getFeaturedProducts = async () => {
+  try {
+    const config = useRuntimeConfig();
+    const apiBaseUrl = config.public.apiBase;
+
+    const data = await $fetch(
+      `${apiBaseUrl}/api/productos?filters[producto_destacado]=true&populate=*`
+    );
+    return data.data || null;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export default {
   getProducts,
   getProduct,
+  getFeaturedProducts,
   getCategories,
   getBrands,
   getBrandsWithProductsAndCategories,

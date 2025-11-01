@@ -32,9 +32,9 @@ const route = useRoute();
 
 const updateClass = (path) => {
   currentClass.value = {
-    "c-header__home": path == "/",
-    "c-header__default": path != "/",
-    "c-header__scrolled": path == "/" && isScrolled,
+    // "c-header__home": path == "/",
+    "c-header__default": path == "/" || path != "/",
+    // "c-header__scrolled": path == "/" && isScrolled,
   };
 };
 

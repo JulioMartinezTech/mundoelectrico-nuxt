@@ -2,13 +2,18 @@
   <div class="v-home">
     <section class="v-home__hero">
       <Splide :options="{ perPage: 1, type: 'loop' }">
-        <SplideSlide v-for="n in 3" :key="n">
-          <div class="slide-content">Slide {{ n }}</div>
+        <SplideSlide v-for="image in heroImages" :key="image.documentId">
+          <div class="slide-content">
+            <img
+              :src="image.url"
+              :alt="image.alternativeText || 'Hero image'"
+            />
+          </div>
         </SplideSlide>
       </Splide>
     </section>
     <section class="v-home__slider-container">
-      <CSlider3d />
+      <CSlider3d :images="carrucelImages" />
     </section>
     <!-- <div class="v-home__categories">
       <div class="v-home__categories__group">
@@ -48,25 +53,30 @@
         </div>
       </div>
     </div> -->
-    <div class="v-home__action"></div>
+    <div class="v-home__action">
+      <img :src="adsImage.url" alt="Publicidad" class="v-home__action-image" />
+    </div>
     <div class="v-home__product-featurerd">
       <h2 class="v-home__product-featurerd__title">PRODUCTOS DESTACADOS</h2>
-      <!-- <div class="v-home__product-featured__list">
+      <div class="v-home__product-featured__list">
         <CProductCard
           v-for="product in products"
           :key="product.id"
           :data="product"
         />
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-//splide dependencies
-import { Splide, SplideSlide } from "@splidejs/vue-splide";
-import "@splidejs/splide/dist/css/splide.min.css";
-//end splide dependencies
+import homeService from "~/api/services/homeService";
+import { getFeaturedProducts } from "@/api/services/productsService";
+
+const homeData = await homeService.fetchHomeContent();
+const heroImages = homeData.data.heroe || [];
+const carrucelImages = homeData.data.carrucel3D || [];
+const adsImage = homeData.data.publicidad || [];
 
 import { ref, onMounted } from "vue";
 
@@ -75,14 +85,13 @@ import CProductCard from "../components/c-product-card.vue";
 import CSlider3d from "~/components/c-slider-3d.vue";
 
 //import services
-import productsService from "@/api/services/productsService";
 
 const products = ref([]);
 // const errorMessage = ref("");
 
 onMounted(async () => {
   try {
-    const response = await productsService.getProducts("8");
+    const response = await getFeaturedProducts();
     products.value = response; // Strapi devuelve los datos dentro de `data`
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -102,17 +111,16 @@ onMounted(async () => {
 }
 .v-home__hero {
   width: 100%;
-  min-height: 800px;
   background-color: var(--secondary-color);
 }
 //start splide styles
 .splide {
   width: 100% !important;
-  height: 800px !important;
+  height: 700px !important;
 }
 
 .splide__slide {
-  height: 800px !important;
+  height: 700px !important;
 }
 .slide-content {
   display: flex;
@@ -204,7 +212,7 @@ onMounted(async () => {
 .v-home__action {
   width: calc(90%);
   height: 300px;
-  background-color: var(--secondary-color);
+  overflow: hidden;
   border-radius: 15px 15px 0 15px;
   display: flex;
   flex-direction: column;
@@ -212,24 +220,10 @@ onMounted(async () => {
   align-items: center;
   gap: 40px;
 }
-.v-home__action__title {
-  font-family: var(--secondary-font);
-  font-size: 2.5em;
-  color: var(--vt-c-white);
-  border-bottom: solid 3px var(--vt-c-white);
-}
-.v-home__action__button {
-  width: 300px;
-  height: 40px;
-  cursor: pointer;
-  background-color: var(--primary-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: var(--secondary-font);
-  color: var(--vt-c-white);
-  border-radius: 50px;
-  padding: 5px;
+
+.v-home__action-image {
+  width: 100%;
+  height: 100%;
 }
 .v-home__product-featurerd {
   width: calc(100%);

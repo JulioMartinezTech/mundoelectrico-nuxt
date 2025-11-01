@@ -10,9 +10,27 @@
       </button>
     </div>
     <div class="c-slider">
-      <div class="c-slider__slide c-slide__b" :class="animation1">Slide 1</div>
-      <div class="c-slider__slide" :class="animation2">Slide 2</div>
-      <div class="c-slider__slide" :class="animation3">Slide 3</div>
+      <div class="c-slider__slide" :class="animation1">
+        <img
+          :src="images[0].url"
+          alt="imagen carrucel"
+          class="c-slider__slider-image"
+        />
+      </div>
+      <div class="c-slider__slide" :class="animation2">
+        <img
+          :src="images[1].url"
+          alt="imagen carrucel"
+          class="c-slider__slider-image"
+        />
+      </div>
+      <div class="c-slider__slide" :class="animation3">
+        <img
+          :src="images[2].url"
+          alt="imagen carrucel"
+          class="c-slider__slider-image"
+        />
+      </div>
     </div>
     <div class="c-slider__buttons">
       <button
@@ -28,6 +46,10 @@
 
 <script setup>
 import { ref } from "vue";
+
+const props = defineProps({
+  images: Array,
+});
 
 const animation1 = ref("animation-forward1");
 const animation2 = ref("animation-forward2");
@@ -130,15 +152,18 @@ const handleLeftButtom = () => {
   justify-content: center;
   align-items: center;
   font-size: clamp(1rem, 3.5vw, 1.5rem);
-  border-radius: 12px;
+  overflow: hidden;
+  border-radius: 1rem;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 20px 25px rgba(0, 0, 0, 0.05);
   text-align: center;
 
   /* Suaviza las animaciones */
   will-change: transform;
 }
 
-.c-slide__b {
-  background-color: var(--primary-color);
+.c-slider__slider-image {
+  width: 100%;
+  height: 100%;
 }
 
 .c-slider__buttons {
