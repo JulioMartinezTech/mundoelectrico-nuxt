@@ -24,7 +24,7 @@ export const sendContactEmail = async (
   try {
     const config = useRuntimeConfig();
     const apiBaseUrl = config.public.apiBase;
-    
+
     const response = await ofetch(`${apiBaseUrl}/api/contact`, {
       method: "POST",
       headers: {
@@ -46,8 +46,8 @@ export const sendQuoteRequest = async (
   try {
     const config = useRuntimeConfig();
     const apiBaseUrl = config.public.apiBase;
-    
-    const response = await ofetch(`${apiBaseUrl}/api/quote-request`, {
+
+    const response = await ofetch(`${apiBaseUrl}/quote-request`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
