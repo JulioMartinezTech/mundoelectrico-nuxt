@@ -153,6 +153,15 @@ const sendForm = async () => {
   padding-left: 5px;
 }
 
+.v-contact-us__form__button {
+  height: 40px;
+  cursor: pointer;
+  color: var(--vt-c-white);
+  font-weight: bold;
+  background-color: var(--secondary-color);
+  border-radius: 15px;
+}
+
 .v-contact-us__form__error {
   color: var(--text-error);
   font-size: 0.9rem;
