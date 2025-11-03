@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink class="c-product-card" :to="`/producto/${data.documentId}`">
+  <div class="c-product-card">
     <div class="c-product-card__inner">
       <div class="c-product-card__front">
         <div class="c-product-card__frame">
@@ -41,7 +41,7 @@
           {{ capitalizeFirstLetter(data.nombre) }}
         </div>
         <div class="c-product-card__back__button">
-          <CButton text="Info" @actionButton="handleButtonClick" />
+          <CButton text="Info" @actionButton="goToProductDetail(data)" />
         </div>
         <!-- <div class="c-product-card__text-container">
           <p class="c-product-card__text-container__text">
@@ -50,16 +50,19 @@
         </div> -->
       </div>
     </div>
-  </NuxtLink>
+  </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import CButton from "./c-button.vue";
 
 const props = defineProps({
   data: Object,
 });
+
+const router = useRouter();
 
 const isImageLoading = ref(true);
 
@@ -72,8 +75,8 @@ const capitalizeFirstLetter = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-const handleButtonClick = () => {
-  alert("click");
+const goToProductDetail = (data) => {
+  router.push(`/producto/${data.documentId}`);
 };
 
 const config = useRuntimeConfig();
@@ -84,7 +87,6 @@ const apiBase = config.public.apiBase;
 .c-product-card {
   width: 250px;
   height: 300px;
-  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -121,15 +123,24 @@ const apiBase = config.public.apiBase;
 
 .c-product-card__front {
   background-color: var(--vt-c-white);
+  pointer-events: auto;
 }
 .c-product-card__back {
   width: 90%;
+  pointer-events: none;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
   background-color: var(--vt-c-white);
   transform: rotateY(180deg);
+}
+/* Cuando se hace hover y gira la tarjeta, invertimos los eventos */
+.c-product-card:hover .c-product-card__front {
+  pointer-events: none;
+}
+.c-product-card:hover .c-product-card__back {
+  pointer-events: auto;
 }
 .c-product-card__back__name {
   text-align: center;
