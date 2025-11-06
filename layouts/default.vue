@@ -6,6 +6,7 @@
       :visible="modal.activeModal === 'login'"
       @close="modal.closeModal()"
       @switchToRegister="modal.openModal('register')"
+      @switchToForgotPassword="modal.openModal('forgot-password')"
       @loggedIn="modal.openModal('login-completed')"
     />
     <MRegister
@@ -13,6 +14,12 @@
       @close="modal.closeModal()"
       @switchToLogin="modal.openModal('login')"
       @registered="modal.openModal('login')"
+    />
+    <MForgotPassword
+      :visible="modal.activeModal === 'forgot-password'"
+      @switchToRegister="modal.openModal('register')"
+      @switchToLogin="modal.openModal('login')"
+      @close="modal.closeModal()"
     />
     <MAuthResponse
       :visible="modal.activeModal === 'login-completed'"
@@ -41,6 +48,7 @@ import CFooter from "~/components/c-footer";
 import MCart from "~/components/modal/m-cart";
 import MLogin from "~/components/modal/m-login";
 import MRegister from "~/components/modal/m-register";
+import MForgotPassword from "~/components/modal/m-forgot-password.vue";
 import MAuthResponse from "~/components/modal/m-auth-response.vue";
 
 const modal = useModalStore();

@@ -1,52 +1,46 @@
 <template>
-  <div class="m-login-modal" v-if="visible">
-    <div class="m-login-modal__backdrop" @click="close" />
-    <div class="m-login__form-container">
-      <div class="m-login__form-card">
-        <button class="m-login__close" @click="close">✕</button>
-        <div class="m-login__form__img-container">
+  <div class="m-forgot-password-modal" v-if="visible">
+    <div class="m-forgot-password-modal__backdrop" @click="close" />
+    <div class="m-forgot-password__form-container">
+      <div class="m-forgot-password__form-card">
+        <button class="m-forgot-password__close" @click="close">✕</button>
+        <div class="m-forgot-password__form__img-container">
           <img
             src="../../assets/img/Mundo-electrico-isotipo.svg"
             alt="Logo"
-            class="m-login__form__logo"
+            class="m-forgot-password__form__logo"
           />
         </div>
-        <h1 class="m-login__form__title">INICIA SESIÓN</h1>
-        <form @submit.prevent="handleLogin" class="m-login__form">
+        <h1 class="m-forgot-password__form__title">Olvide la contraseña</h1>
+        <form @submit.prevent="handleLogin" class="m-forgot-password__form">
           <input
             type="email"
             v-model="email"
-            class="m-login__form__input"
+            class="m-forgot-password__form__input"
             placeholder="Correo"
           />
           <div
             v-if="!emailValido && email"
-            class="m-login__form__error-container"
+            class="m-forgot-password__form__error-container"
           >
-            <p class="m-login__form__error">Formato no válido</p>
+            <p class="m-forgot-password__form__error">Formato no válido</p>
           </div>
           <input
-            type="password"
-            v-model="password"
-            class="m-login__form__input"
-            placeholder="Contraseña"
-          />
-          <input
             type="submit"
-            class="m-login__form__button"
-            value="Iniciar sesión"
+            class="m-forgot-password__form__button"
+            value="Enviar"
           />
         </form>
-        <p class="m-login__form__text">
+        <p class="m-forgot-password__form__text">
           ¿No tienes cuenta?
-          <span @click="switchToRegister" class="m-login__form__link">
+          <span @click="switchToRegister" class="m-forgot-password__form__link">
             Regístrate
           </span>
         </p>
-        <p class="m-login__form__text">
-          ¿Olvidaste tu clave?
-          <span @click="switchToForgotPassword" class="m-login__form__link">
-            Restablecer
+        <p class="m-forgot-password__form__text">
+          ¿Ya tienes cuenta?
+          <span @click="switchToLogin" class="m-forgot-password__form__link">
+            Inicia sesion
           </span>
         </p>
       </div>
@@ -55,26 +49,20 @@
 </template>
 <script setup>
 import { ref, computed } from "vue";
-import { loginUser } from "~/api/services/authService";
+import { forgotPassword } from "~/api/services/authService";
 
 const user = useUserStore();
 
 const props = defineProps({
   visible: Boolean,
 });
-const emit = defineEmits([
-  "close",
-  "switchToRegister",
-  "switchToForgotPassword",
-  "loggedIn",
-]);
+const emit = defineEmits(["close", "switchToRegister", "swithToLogin"]);
 
 const close = () => emit("close");
 const switchToRegister = () => emit("switchToRegister");
-const switchToForgotPassword = () => emit("switchToForgotPassword");
+const switchToLogin = () => emit("switchToLogin");
 
 const email = ref("");
-const password = ref("");
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const emailValido = computed(() => emailRegex.test(email.value));
 
@@ -82,29 +70,15 @@ const handleLogin = async () => {
   if (!emailValido.value) return;
 
   try {
-    const res = await loginUser({
-      identifier: email.value,
-      password: password.value,
-    });
-    user.addUser(
-      {
-        documentId: res.user.documentId,
-        username: res.user.username,
-        email: res.user.email,
-        provider: res.user.provider,
-        confirmed: res.user.confirmed,
-        blocked: res.user.blocked,
-      },
-      res.jwt
-    );
-    emit("loggedIn"); // para continuar flujo
-  } catch (err) {
-    alert("Credenciales incorrectas");
+    const res = await forgotPassword(email.value);
+    emit("emailSent", res);
+  } catch (error) {
+    console.error(error);
   }
 };
 </script>
 <style lang="scss" scoped>
-.m-login-modal {
+.m-forgot-password-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -117,21 +91,21 @@ const handleLogin = async () => {
   padding: 16px; // margen interno en mobile
 }
 
-.m-login-modal__backdrop {
+.m-forgot-password-modal__backdrop {
   position: absolute;
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.4);
 }
 
-.m-login__form-container {
+.m-forgot-password__form-container {
   width: 100%;
   height: auto;
   max-width: 500px; // en desktop
   z-index: 999;
 }
 
-.m-login__form-card {
+.m-forgot-password__form-card {
   width: 100%;
   max-width: 450px;
   background-color: var(--vt-c-white);
@@ -146,7 +120,7 @@ const handleLogin = async () => {
   position: relative;
 }
 
-.m-login__close {
+.m-forgot-password__close {
   position: absolute;
   top: 10px;
   right: 16px;
@@ -156,17 +130,17 @@ const handleLogin = async () => {
   cursor: pointer;
 }
 
-.m-login__form__img-container {
+.m-forgot-password__form__img-container {
   width: 70px;
   height: 70px;
 }
 
-.m-login__form__logo {
+.m-forgot-password__form__logo {
   width: 100%;
   height: 100%;
 }
 
-.m-login__form__title {
+.m-forgot-password__form__title {
   color: var(--secondary-color);
   font-family: var(--secondary-font);
   font-size: 1.5rem;
@@ -174,45 +148,45 @@ const handleLogin = async () => {
   text-align: center;
 }
 
-.m-login__form {
+.m-forgot-password__form {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.m-login__form__input,
-.m-login__form__button {
+.m-forgot-password__form__input,
+.m-forgot-password__form__button {
   width: 100%;
   height: 40px;
   border-radius: 18px;
   padding: 10px;
 }
 
-.m-login__form__input {
+.m-forgot-password__form__input {
   border: solid 1px var(--third-color);
 }
 
-.m-login__form__error-container {
+.m-forgot-password__form__error-container {
   width: 100%;
   display: flex;
   justify-content: flex-start;
   padding-left: 5px;
 }
 
-.m-login__form__error {
+.m-forgot-password__form__error {
   color: var(--text-error);
   font-size: 0.85rem;
 }
 
-.m-login__form__button {
+.m-forgot-password__form__button {
   background-color: var(--secondary-color);
   font-family: var(--secondary-font);
   color: var(--vt-c-white);
   cursor: pointer;
 }
 
-.m-login__form__link {
+.m-forgot-password__form__link {
   cursor: pointer;
   color: var(--secondary-color);
   font-weight: bold;
@@ -221,11 +195,11 @@ const handleLogin = async () => {
 
 /* --- Responsive --- */
 @media (min-width: 768px) {
-  .m-login__form-card {
+  .m-forgot-password__form-card {
     padding: 40px 30px;
   }
 
-  .m-login__form__title {
+  .m-forgot-password__form__title {
     font-size: 1.7rem;
   }
 }
