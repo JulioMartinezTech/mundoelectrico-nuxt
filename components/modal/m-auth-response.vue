@@ -42,7 +42,7 @@ const close = () => emit("close");
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 990;
+  z-index: 9990;
 }
 .m-auth-response-modal__backdrop {
   position: absolute;

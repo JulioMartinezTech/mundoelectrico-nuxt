@@ -27,6 +27,12 @@
             class="m-register__form__input"
             placeholder="Correo"
           />
+          <!-- <input
+            v-model="phone"
+            type="phone"
+            class="m-register__form__input"
+            placeholder="Teléfono"
+          /> -->
           <input
             v-model="password"
             type="password"
@@ -77,6 +83,7 @@ const switchToLogin = () => {
 
 const name = ref("");
 const email = ref("");
+// const phone = ref("");
 const password = ref("");
 const confirmPassword = ref("");
 
@@ -92,6 +99,7 @@ const handleRegister = async () => {
     const res = await registerUser({
       username: name.value,
       email: email.value,
+      // phone: phone.value,
       password: password.value,
     });
 
@@ -157,7 +165,7 @@ const handleRegister = async () => {
   align-items: center;
   justify-content: flex-start;
   gap: 18px;
-  z-index: 999;
+  z-index: 9999;
 }
 .m-register__form__img-container {
   width: 80px;

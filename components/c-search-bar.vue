@@ -11,7 +11,7 @@
       aria-haspopup="listbox"
       @keydown.down.prevent="moveDown"
       @keydown.up.prevent="moveUp"
-      @keydown.enter.prevent="selectActive"
+      @keydown.enter.prevent="goToSearchResults"
       @keydown.esc="closeList"
     />
     <button class="c-search-bar__icon-container" @click="goToSearchResults">

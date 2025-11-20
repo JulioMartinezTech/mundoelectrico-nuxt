@@ -75,7 +75,6 @@ const handleLoginClick = () => {
   align-items: center;
   justify-content: flex-end;
   position: relative;
-  z-index: 9999;
 }
 
 /* ---------- Botón hamburguesa ---------- */
