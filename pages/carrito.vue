@@ -59,6 +59,7 @@ const sendEmail = async () => {
     try {
       await sendQuoteRequest(quoteRequestData.value);
       cart.clearCart();
+      modal.openModal("email-sent");
     } catch (error) {
       console.error("Error al enviar la cotización", error);
     }
