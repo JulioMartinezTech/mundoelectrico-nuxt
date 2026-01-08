@@ -158,6 +158,7 @@ onMounted(async () => {
       { name: "Zócalo", value: response.zocalo },
       { name: "Potencia", value: response.potencia },
       { name: "Luminosidad", value: response.luminocidad },
+      { name: "Medidas", value: response.medidas },
     ].filter((item) => item.value);
 
     if (response.galeria && response.galeria.length > 0) {
