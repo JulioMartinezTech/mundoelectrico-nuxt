@@ -1,7 +1,9 @@
 <template>
   <div class="v-about-us">
     <div class="v-about-us__history-container">
-      <div class="v-about-us__image-container"></div>
+      <div class="v-about-us__image-container">
+        <img :src="aboutUsImg" alt="Sobre nosotros img" />
+      </div>
       <div class="v-about-us__history">
         <h1 class="v-about-us__title">{{ pageTitle }}</h1>
         <p
@@ -62,6 +64,7 @@ const historyParagraphs = ref([]);
 const missionParagraphs = ref([]);
 const visionParagraphs = ref([]);
 const valuesParagraphs = ref([]);
+const aboutUsImg = ref("");
 
 //function to get the page paragraphs
 const pageContent = (data, section) => {
@@ -76,6 +79,7 @@ onMounted(async () => {
   try {
     const response = await contentService.fetchPageContent();
     pageTitle.value = response.titulo;
+    aboutUsImg.value = response.img.url;
 
     //call functios
     pageContent(response.historia, historyParagraphs);
@@ -111,8 +115,6 @@ onMounted(async () => {
 
 .v-about-us__image-container {
   width: 100%;
-  height: 300px; /* más pequeño en mobile */
-  background-color: rgb(154, 154, 154);
 }
 
 .v-about-us__history {
@@ -175,9 +177,6 @@ onMounted(async () => {
 
 /* Desktop / Tablet */
 @media (min-width: 768px) {
-  .v-about-us__image-container {
-    height: 500px;
-  }
   .v-about-us__history-container {
     flex-direction: row;
   }

@@ -10,7 +10,7 @@ export const fetchPageContent = async () => {
     const config = useRuntimeConfig();
     const apiBaseUrl = config.public.apiBase;
 
-    const data = await $fetch(`${apiBaseUrl}/api/pagina-empresa`, {
+    const data = await $fetch(`${apiBaseUrl}/api/pagina-empresa?populate=*`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

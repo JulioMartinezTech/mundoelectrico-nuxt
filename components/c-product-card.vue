@@ -112,6 +112,7 @@ const apiBase = config.public.apiBase;
   position: absolute;
   width: 100%;
   height: 100%;
+  background-color: var(--vt-c-white);
   backface-visibility: hidden;
   display: flex;
   justify-content: center;
