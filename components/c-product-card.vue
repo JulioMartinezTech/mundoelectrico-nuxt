@@ -5,8 +5,14 @@
         <div class="c-product-card__frame">
           <!-- <div class="c-product-card__frame__icons"></div> -->
         </div>
-
-        <div class="c-product-card__image-wrapper">
+        
+        <p 
+          v-if="!data.galeria && data.nombre" 
+          class="c-product-card__alternative-front-title" 
+        >
+          {{ capitalizeFirstLetter(data.nombre)}}
+        </p>
+        <div class="c-product-card__image-wrapper" v-if="data.galeria || !data.nombre">
           <img
             v-if="data.galeria"
             :src="`${data.galeria[0].url}`"
@@ -33,7 +39,15 @@
           <div v-if="isImageLoading" class="c-product-card__spinner"></div>
         </div>
       </div>
-      <div class="c-product-card__back">
+      <div class="c-product-card__back" @click="goToProductDetail(data)">
+        <div class="c-product-card__back__code">
+          {{ props.data.codigo_producto }}
+        </div>
+        <div class="c-product-card__back__name">
+          {{ capitalizeFirstLetter(data.nombre) }}
+        </div>
+      </div>
+      <div class="c-product-card__back__mobile">
         <div class="c-product-card__back__code">
           {{ props.data.codigo_producto }}
         </div>
@@ -79,8 +93,8 @@ const goToProductDetail = (data) => {
   router.push(`/producto/${data.documentId}`);
 };
 
-const config = useRuntimeConfig();
-const apiBase = config.public.apiBase;
+// const config = useRuntimeConfig();
+// const apiBase = config.public.apiBase;
 </script>
 
 <style lang="scss" scoped>
@@ -90,6 +104,7 @@ const apiBase = config.public.apiBase;
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
   border-radius: 15px;
   padding: 10px;
   perspective: 1000px;
@@ -108,7 +123,7 @@ const apiBase = config.public.apiBase;
 }
 
 .c-product-card__front,
-.c-product-card__back {
+.c-product-card__back, .c-product-card__back__mobile {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -122,11 +137,7 @@ const apiBase = config.public.apiBase;
   box-shadow: -4px 4px 19px 2px rgba(138, 138, 138, 1);
 }
 
-.c-product-card__front {
-  background-color: var(--vt-c-white);
-  pointer-events: auto;
-}
-.c-product-card__back {
+.c-product-card__back, .c-product-card__back__mobile {
   width: 90%;
   pointer-events: none;
   display: flex;
@@ -136,11 +147,16 @@ const apiBase = config.public.apiBase;
   background-color: var(--vt-c-white);
   transform: rotateY(180deg);
 }
+.c-product-card__front {
+  
+  background-color: var(--vt-c-white);
+  pointer-events: auto;
+}
 /* Cuando se hace hover y gira la tarjeta, invertimos los eventos */
 .c-product-card:hover .c-product-card__front {
   pointer-events: none;
 }
-.c-product-card:hover .c-product-card__back {
+.c-product-card:hover .c-product-card__back, .c-product-card:hover .c-product-card__back__mobile {
   pointer-events: auto;
 }
 .c-product-card__back__name {
@@ -181,6 +197,10 @@ const apiBase = config.public.apiBase;
   object-fit: cover;
   display: block;
   border-radius: 4px;
+}
+
+.c-product-card__alternative-front-title{
+  text-align: center;
 }
 
 /* Spinner centrado dentro del wrapper */
@@ -225,5 +245,16 @@ const apiBase = config.public.apiBase;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+@media (width < 700px){
+  .c-product-card__back{
+    display: none;
+  }
+}
+@media (width > 700px){
+  .c-product-card__back__mobile{
+    display: none;
+  }
 }
 </style>
