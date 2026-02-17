@@ -124,7 +124,7 @@ function goToProductDetail(id: string | null) {
 
 function goToSearchResults() {
   if (!searchText.value.trim()) return;
-  router.push({ path: "/productos", query: { search: searchText.value } });
+  router.push({ path: `/productos`, query: { search: searchText.value } });
   searchText.value = "";
 }
 </script>

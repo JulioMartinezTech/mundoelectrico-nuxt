@@ -116,12 +116,21 @@ watch(selectedCategory, () => {
 });
 
 // Actualizar URL cada vez que cambian filtros
-watch([filterSearch, selectedCategory, selectedBrand, sortOrder], () => {
+watch([selectedCategory, selectedBrand, sortOrder], () => {
   router.replace({
     query: {
       category: selectedCategory.value || undefined,
       brand: selectedBrand.value || undefined,
       sort: sortOrder.value || undefined,
+      search: filterSearch.value || undefined,
+    },
+  });
+});
+watch(filterSearch, () => {
+  selectedCategory.value = ""
+  selectedBrand.value = ""
+  router.replace({
+    query: {
       search: filterSearch.value || undefined,
     },
   });
