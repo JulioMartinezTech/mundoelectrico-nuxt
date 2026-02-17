@@ -1,10 +1,11 @@
 <template>
   <header :class="currentClass">
-    <div class="c-header__logo-nav__container">
+    <div class="c-header__logo-nav__container" >
       <img
         src="../assets/img/Mundo-electrico-logo.svg"
         alt="logo"
         class="c-header__logo"
+        @click="goToHome"
       />
       <CMenu class="c-header__nav-container" />
     </div>
@@ -20,7 +21,7 @@
 
 <script setup>
 import { ref, watch, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import CMenu from "../components/c-menu.vue";
 import CSearchBar from "../components/c-search-bar.vue";
 
@@ -29,6 +30,11 @@ import CSearchBar from "../components/c-search-bar.vue";
 const isScrolled = ref(false);
 const currentClass = ref("");
 const route = useRoute();
+const router = useRouter();
+
+const goToHome = () => {
+  router.push("/");
+};
 
 const updateClass = (path) => {
   currentClass.value = {
@@ -92,6 +98,7 @@ onMounted(() => {
 }
 .c-header__logo {
   width: 40%;
+  cursor: pointer;
 }
 // .c-header__nav-container__mobile {
 //   display: none;
