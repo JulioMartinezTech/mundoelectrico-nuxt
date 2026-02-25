@@ -1,6 +1,27 @@
 <template>
   <nav class="c-menu">
-    <!-- Botón hamburguesa -->
+    <div class="c-menu__login-cart__mobile">
+      <!-- Login en mobile-->
+      <button
+        v-if="!user.isLogin"
+        class="c-menu__login-icon-container"
+        @click="handleLoginClick"
+        aria-label="Abrir login"
+      >
+        <img
+          src="../assets/img/login-icon.svg"
+          alt="login"
+          class="c-menu__login-icon"
+        />
+        <!-- Botón hamburguesa -->
+      </button>
+      <div v-else class="c-menu__login-icon-container">
+        <p>{{ userInitial }}</p>
+      </div>
+
+      <!-- Carrito en mobile -->
+      <CCart class="c-menu__cart" />
+    </div>
     <button
       class="c-hamburger"
       :class="{ 'is-active': isOpen }"
@@ -27,10 +48,10 @@
         >CONTÁCTANOS</NuxtLink
       >
 
-      <!-- Login -->
+      <!-- Login en desktop -->
       <button
         v-if="!user.isLogin"
-        class="c-menu__login-icon-container"
+        class="c-menu__login-icon-container c-menu__desktop"
         @click="handleLoginClick"
         aria-label="Abrir login"
       >
@@ -40,12 +61,12 @@
           class="c-menu__login-icon"
         />
       </button>
-      <div v-else class="c-menu__login-icon-container">
+      <div v-else class="c-menu__login-icon-container c-menu__desktop">
         <p>{{ userInitial }}</p>
       </div>
 
-      <!-- Carrito -->
-      <CCart />
+      <!-- Cart en desktop -->
+      <CCart class="c-menu__cart c-menu__desktop" />
     </div>
   </nav>
 </template>
@@ -75,6 +96,15 @@ const handleLoginClick = () => {
   align-items: center;
   justify-content: flex-end;
   position: relative;
+  z-index: 99;
+}
+
+.c-menu__login-cart__mobile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-right: 20px;
 }
 
 /* ---------- Botón hamburguesa ---------- */
@@ -167,8 +197,18 @@ const handleLoginClick = () => {
   width: 80%;
 }
 
+.c-menu__desktop {
+  display: none;
+}
+
 /* ---------- Desktop ---------- */
 @media (min-width: 768px) {
+  .c-menu__desktop {
+    display: flex;
+  }
+  .c-menu__login-cart__mobile {
+    display: none;
+  }
   .c-hamburger {
     display: none;
   }
