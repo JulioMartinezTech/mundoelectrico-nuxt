@@ -35,7 +35,13 @@ export const getProducts = async ({
     }
 
     if (search) {
-      query.append("filters[nombre][$containsi]", search);
+      // Condición A: Que el término esté en el nombre del producto
+      query.append("filters[$or][0][nombre][$containsi]", search);
+
+      query.append(
+        "filters[$or][1][diccionarios][palabra_clave][$containsi]",
+        search,
+      );
     }
 
     query.append("populate", "*");
@@ -47,7 +53,7 @@ export const getProducts = async ({
         headers: {
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
     return data || null;
@@ -64,8 +70,8 @@ export const getProductsByName = async (name) => {
 
     const data = await $fetch(
       `${apiBaseUrl}/api/productos?filters[nombre][$containsi]=${encodeURIComponent(
-        name
-      )}`
+        name,
+      )}`,
     );
     return data.data || null;
   } catch (error) {
@@ -137,7 +143,7 @@ export const getBrandsWithProductsAndCategories = async () => {
         headers: {
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
     // Transformar respuesta en un array más limpio
@@ -163,7 +169,7 @@ export const getFeaturedProducts = async () => {
     const apiBaseUrl = config.public.apiBase;
 
     const data = await $fetch(
-      `${apiBaseUrl}/api/productos?filters[producto_destacado]=true&populate=*`
+      `${apiBaseUrl}/api/productos?filters[producto_destacado]=true&populate=*`,
     );
     return data.data || null;
   } catch (error) {

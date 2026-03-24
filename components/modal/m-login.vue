@@ -95,7 +95,7 @@ const handleLogin = async () => {
         confirmed: res.user.confirmed,
         blocked: res.user.blocked,
       },
-      res.jwt
+      res.jwt,
     );
     emit("loggedIn"); // para continuar flujo
   } catch (err) {
