@@ -49,9 +49,13 @@
 
 <script setup>
 import { ref, watch, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import CProductCard from "./c-product-card.vue";
 import CProductCardSkeleton from "./c-product-card-skeleton.vue";
 import productsService from "~/api/services/productsService";
+
+const route = useRoute();
+const router = useRouter();
 
 const props = defineProps({
   search: String,
@@ -71,7 +75,7 @@ const props = defineProps({
 const products = ref([]);
 const loading = ref(false);
 const pagination = ref({
-  page: props.onPage || 1,
+  page: Number(route.query.page) || props.onPage || 1,
   pageSize: props.size || 20,
   pageCount: 1,
   total: 0,
@@ -112,13 +116,29 @@ watch(
   () => {
     pagination.value.page = 1; // Resetear a la primera página
     fetchProducts();
-  }
+  },
+);
+watch(
+  () => route.query.page,
+  (newPage) => {
+    const pageToFetch = Number(newPage) || 1;
+    // Solo hacemos fetch si la página realmente cambió
+    if (pagination.value.page !== pageToFetch) {
+      pagination.value.page = pageToFetch;
+      fetchProducts();
+    }
+  },
 );
 
-const goToPage = (page) => {
+const goToPage = async (page) => {
   if (page >= 1 && page <= pagination.value.pageCount) {
-    pagination.value.page = page;
-    fetchProducts();
+    await router.push({
+      query: {
+        ...route.query,
+        // Si vamos a la página 1, quitamos el parámetro para que la URL quede más limpia
+        page: page === 1 ? undefined : page,
+      },
+    });
   }
 };
 </script>

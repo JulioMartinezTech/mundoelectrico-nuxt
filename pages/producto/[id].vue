@@ -14,7 +14,8 @@
               v-if="mainImageUrl"
               :src="mainImageUrl"
               alt="Imagen del producto"
-              class="v-product-details__card__image"
+              class="v-product-details__card__image v-product-details__card__image--zoomable"
+              @click="openZoom(mainImageUrl)"
             />
             <img
               v-else-if="!mainImageUrl"
@@ -93,6 +94,12 @@
         />
       </div>
     </div>
+    <MImageModal
+      :show="isZoomOpen"
+      :imageUrl="zoomedImageUrl"
+      :altText="productName"
+      @close="closeZoom"
+    />
   </div>
 </template>
 
@@ -107,6 +114,8 @@ import CButton from "~/components/c-button.vue";
 import CTechnicalDetails from "~/components/c-technical-details.vue";
 //import services
 import productsService from "@/api/services/productsService";
+//import modals
+import MImageModal from "~/components/modal/m-image-modal.vue";
 
 const config = useRuntimeConfig();
 const apiBase = config.public.apiBase;
@@ -126,7 +135,23 @@ const productName = ref("");
 const technicalValues = ref([]);
 const showTechnicalValues = computed(() => technicalValues.value.length > 0);
 const productDescription = ref("");
-// const productDescription = ref("")
+const isZoomOpen = ref(false);
+const zoomedImageUrl = ref("");
+
+const openZoom = (url) => {
+  if (url) {
+    zoomedImageUrl.value = url;
+    isZoomOpen.value = true;
+  }
+};
+
+const closeZoom = () => {
+  isZoomOpen.value = false;
+  // Pequeño retraso para que termine la animación de cierre antes de limpiar la URL
+  setTimeout(() => {
+    zoomedImageUrl.value = "";
+  }, 300);
+};
 
 const handleMainImageUrl = (url) => {
   mainImageUrl.value = url;
@@ -236,6 +261,14 @@ onMounted(async () => {
 .v-product-details__card__image {
   width: 90%;
   margin-top: 15px;
+}
+.v-product-details__card__image--zoomable {
+  cursor: zoom-in;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.03);
+  }
 }
 .v-product-detail__galeria-container {
   display: flex;

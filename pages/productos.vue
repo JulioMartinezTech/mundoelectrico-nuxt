@@ -32,7 +32,7 @@
             :brand="selectedBrand"
             :sort="sortOrder"
             :size="20"
-            :onPage="1"
+            :onPage="currentPage"
           />
         </div>
       </div>
@@ -42,7 +42,7 @@
 
 <script setup>
 // import CProductCard from "../components/c-product-card.vue";
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { FwbSelect } from "flowbite-vue";
 import CProductList from "~/components/c-product-list.vue";
@@ -58,6 +58,10 @@ const filterSearch = ref("");
 const selectedCategory = ref("");
 const selectedBrand = ref("");
 const sortOrder = ref("nombre:asc");
+
+const currentPage = computed(() => {
+  return Number(route.query.page) || 1;
+});
 
 const sortOptions = [
   { value: "nombre:asc", name: "A-Z" },
@@ -96,8 +100,6 @@ onMounted(async () => {
   const initialSort = route.query.sort || "nombre:asc";
   const initialSearch = route.query.search || "";
 
-  //console para ver que trae el parametro brand de la url
-
   selectedCategory.value = initialCategory;
 
   updateFilteredBrands();
@@ -105,7 +107,6 @@ onMounted(async () => {
   selectedBrand.value = initialBrand;
   sortOrder.value = initialSort;
   filterSearch.value = initialSearch;
-  // console.log(selectedBrand.value);
 });
 
 // Actualizar marcas filtradas cuando cambia selectedCategory
@@ -127,8 +128,8 @@ watch([selectedCategory, selectedBrand, sortOrder], () => {
   });
 });
 watch(filterSearch, () => {
-  selectedCategory.value = ""
-  selectedBrand.value = ""
+  selectedCategory.value = "";
+  selectedBrand.value = "";
   router.replace({
     query: {
       search: filterSearch.value || undefined,
@@ -140,7 +141,7 @@ watch(
   () => route.query.search,
   (newSearch) => {
     filterSearch.value = newSearch || "";
-  }
+  },
 );
 
 // Función que recalcula las marcas filtradas
@@ -159,8 +160,8 @@ function updateFilteredBrands() {
     const filtered = allBrands.value.filter((brand) => {
       return brand.productos.some((product) =>
         product.categorias.some(
-          (cat) => cat.documentId === selectedCategory.value
-        )
+          (cat) => cat.documentId === selectedCategory.value,
+        ),
       );
     });
 
